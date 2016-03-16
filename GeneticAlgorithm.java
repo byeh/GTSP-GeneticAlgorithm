@@ -42,39 +42,46 @@ public class GeneticAlgorithm {
   // lets run this cool genetic algorithm
   public GeneticAlgorithm() throws FileNotFoundException { 
     states = new HashMap<String, ArrayList<City>>();
-    population = new ArrayList<Tour>();  
-
-    setParameters();
- 
+    population = new ArrayList<Tour>();   
 
     run();
+  }
+
+  private void run() throws FileNotFoundException {
+    long startTime = System.currentTimeMillis();
+    setParameters();
+    importData();
+    auditImport();
+    generateInitialPopulation();
+    findBest();
+ 
+    showMetrics(startTime);
   }
 
   private void setParameters() {
     // show verbose output
     verboseOutput = true;
-    populationSize = 50;
+    populationSize = 50000;
+    System.out.println("Running Experiment with population size of:" + populationSize);
   }
 
-  private void run() throws FileNotFoundException {
-    long startTime = System.currentTimeMillis();
-
-    importData();
-    auditImport();
-    generateInitialPopulation();
-    // tour = generateRandomTour();
-    // tour.computeTourLength();
-    //System.out.println(tour.getTourSize());
-    //auditData();
-    //printTour(tour);
- 
-    showMetrics(startTime);
+  private void findBest() {
+    int best = population.get(0).getTourLength();
+    for(Tour t : population) {
+      if(t.getTourLength() < best) {
+        best = t.getTourLength();
+      }
+    }
+    System.out.println("Best tour for 2-opt is:" + best);
   }
 
-  // this method generates a population of random tours
+  // this method generates a population of random tours and runs 2-opt on it
   private void generateInitialPopulation() {
     for(int i = 0; i < populationSize; i++) {
-      population.add(generateRandomTour());
+      Tour temp = generateRandomTour();
+      //System.out.print(temp.getTourLength() + " ");
+      temp = runTwoOpt(temp);
+      population.add(temp);
     }
   }
 
@@ -90,6 +97,35 @@ public class GeneticAlgorithm {
     return temp;
   }
 
+  public Tour runTwoOpt(Tour t) {
+
+    Tour bestTour = t;
+
+    for(int i = 0; i < t.getTourSize() - 2; i++) {
+      for(int j = i + 2; j < t.getTourSize(); j++) {
+        Tour temp = new Tour(TOUR_SIZE);
+        temp.replaceTour(t.getTour());
+        City a = t.getTour().get(i);
+        City b = t.getTour().get(j);
+
+        // swap the two cities in the tour
+        temp.replaceCity(i,b);
+        temp.replaceCity(j,a);
+        temp.computeTourLength();
+
+        if(temp.getTourLength() < bestTour.getTourLength()) {
+          bestTour = temp;
+          //System.out.println(bestTour.getTourLength() + " " + temp.getTourLength());
+        }
+        else {
+          //System.out.println(bestTour.getTourLength() + " " + temp.getTourLength());
+        }
+      }
+    }
+    //System.out.println(count);
+    //System.out.println(bestTour.getTourLength());
+    return bestTour;
+  }
 
   // Method to import csv data for all the cities
   public void importData() throws FileNotFoundException {

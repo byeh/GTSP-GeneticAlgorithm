@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 class Tsp {
 
   Tsp() throws FileNotFoundException { 
-      ImportData data = new ImportData();
+      GeneticAlgorithm data = new GeneticAlgorithm();
     }
 
   // entry point for the application

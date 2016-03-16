@@ -1,43 +1,57 @@
 import java.lang.*;
 
-class City {
+public class City {
 
-  Double latitude;
-  Double longitude;
+  Location coord;
   String city;
   String county;
   String state;
   City() { 
-    latitude = 0.0;
-    longitude = 0.0;
+    coord = new Location(0.0, 0.0);
     city = "";
     county = "";
     state = "";
   }
 
-  void updateLatitude(double l) {
-    latitude = l;
+  public Location getCoordinates() {
+    return coord;
   }
 
-  void updateLongitude(double l) {
-    longitude = l;
+  public String getCity() {
+    return city;
   }
 
-  void updateCity(String c) {
+  public String getCounty() {
+    return county;
+  }
+
+  public String getState() {
+    return state;
+  }
+
+  public void updateLatitude(double l) {
+    coord.updateLatitude(l);
+  }
+
+  public void updateLongitude(double l) {
+    coord.updateLongitude(l);
+  }
+
+  public void updateCity(String c) {
     city = c;
   }
 
-  void updateCounty(String c) {
+  public void updateCounty(String c) {
     county = c;
   }
 
-  void updateState(String s) {
+  public void updateState(String s) {
     state = s;
   }
 
-  void print() {
-    System.out.println(latitude);
-    System.out.println(longitude);
+
+  public void print() {
+    coord.print();
     System.out.println(city);
     System.out.println(county);
     System.out.println(state);

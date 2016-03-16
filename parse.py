@@ -6,7 +6,7 @@ def parse():
       temp = temp.split(" | ")
       coord = temp[0].strip(' ')
       this = coord.split('  ')
-      print(this[0] + ',' + this[1] + ',' + temp[1] + ',' + temp[2] + ',' + temp[3])
+      print(this[0] + ';' + this[1] + ';' + temp[1] + ';' + temp[2] + ';' + temp[3])
       #count = count+1
     #print(count)
 

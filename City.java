@@ -13,8 +13,12 @@ public class City {
     state = "";
   }
 
-  public Location getCoordinates() {
-    return coord;
+  public Double getX() {
+    return coord.getX();
+  }
+
+  public Double getY() {
+    return coord.getY();
   }
 
   public String getCity() {
@@ -29,12 +33,12 @@ public class City {
     return state;
   }
 
-  public void updateLatitude(double l) {
-    coord.updateLatitude(l);
+  public void updateX(double y) {
+    coord.updateX(y);
   }
 
-  public void updateLongitude(double l) {
-    coord.updateLongitude(l);
+  public void updateY(double y) {
+    coord.updateY(y);
   }
 
   public void updateCity(String c) {

@@ -1,22 +1,30 @@
   public class Location {
 
-    Double latitude;
-    Double longitude;
+    Double x;
+    Double y;
 
-    public Location(Double lat, Double lon) {
-      latitude = lat;
-      longitude = lon;
+    public Location(Double xcord, Double ycord) {
+      x = xcord;
+      y = ycord;
     }
 
-    public void updateLatitude(double l) {
-      latitude = l;
+    public void updateX(double xcord) {
+      x = xcord;
     }
 
-    public void updateLongitude(double l) {
-      longitude = l;
+    public void updateY(double ycord) {
+      y = ycord;
+    }
+
+    public Double getX() {
+      return x;
+    }
+
+    public Double getY() {
+      return y;
     }
 
     public void print() {
-      System.out.println("Latitude: " + latitude + ", Longitude: " + longitude);
+      System.out.println("X-Coordinate: " + x + ", Y-Coordinate: " + y);
     }
   }

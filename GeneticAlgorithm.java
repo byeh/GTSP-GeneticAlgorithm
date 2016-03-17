@@ -28,9 +28,9 @@ public class GeneticAlgorithm {
     "VT", "VA", "WA", "WV", "WI", "WY"};
 
   // A set tours for our initial population and our parameters
-  private int populationSize = 50;
-  private int naturalSelection = 20; // top 20 will survive
-  private int generations = 50;
+  private int POPULATION_SIZE = 1;
+  private int GENERATION_SURVIVAL_RATE = 1; // top 20 will survive
+  private int TOTAL_GENERATIONS = 2;
   private int currentGeneration = 1;
   private HashMap <Integer, Tour> population;
 
@@ -54,7 +54,7 @@ public class GeneticAlgorithm {
     setParameters();
     importData();
     auditImport();
-    runCycleOfLifeAndDeath(generations);
+    runCycleOfLifeAndDeath(TOTAL_GENERATIONS);
     findBest();
  
     showMetrics(startTime);
@@ -62,9 +62,9 @@ public class GeneticAlgorithm {
 
   private void runCycleOfLifeAndDeath(int cycles) {
 
-    for(int i = 1; i <= generations; i++) {
-      System.out.println("Currently on generation: " + currentGeneration + " of " + generations);
-      generatePopulation(populationSize);
+    for(int i = 1; i < TOTAL_GENERATIONS; i++) {
+      System.out.println("Currently on generation: " + currentGeneration + " of " + TOTAL_GENERATIONS);
+      generatePopulation(POPULATION_SIZE);
       simulateNaturalSelection();
       currentGeneration++;
       findBest();   
@@ -74,11 +74,8 @@ public class GeneticAlgorithm {
   private void setParameters() {
     // show verbose output
     verboseOutput = true;
-    populationSize = 500;
-    naturalSelection = 50;
-    generations = 25;
 
-    System.out.println("Running Experiment with population size of:" + populationSize);
+    System.out.println("Running Experiment with population size of:" + POPULATION_SIZE);
   }
 
   private void findBest() {
@@ -91,7 +88,7 @@ public class GeneticAlgorithm {
         bestLength = length;
       }
     }
-    if(currentGeneration == generations) {
+    if(currentGeneration == TOTAL_GENERATIONS) {
       System.out.print(GOOGLE_MAPS_URL_HEAD);
       population.get(bestLength).printTour();
       System.out.print(GOOGLE_MAPS_API_KEY + '\n');
@@ -106,8 +103,10 @@ public class GeneticAlgorithm {
   private void generatePopulation(int pop) {
     for(int i = 0; i < pop; i++) {
       Tour temp = generateRandomTour();
-      Tour temp2 = runTwoOpt(temp);
-      population.put(temp2.getTourLength(),temp2);
+      temp = runTwoOpt(temp););
+      //temp = nearestNeighbours(temp);
+      //temp = runTwoOpt(temp);
+      population.put(temp.getTourLength(),temp);
     }
   }
 
@@ -116,10 +115,11 @@ public class GeneticAlgorithm {
   private void simulateNaturalSelection() {
     ArrayList keys = new ArrayList(population.keySet());
     Collections.sort(keys);
-    for(int i = naturalSelection; i < keys.size(); i++){
+    for(int i = GENERATION_SURVIVAL_RATE; i < keys.size(); i++){
       population.remove(keys.get(i));
     }
-    generatePopulation(populationSize - naturalSelection);
+    generatePopulation(POPULATION_SIZE - GENERATION_SURVIVAL_RATE);
+
   }
 
   // this method generates a random tour of 49 states
@@ -134,7 +134,50 @@ public class GeneticAlgorithm {
     return temp;
   }
 
-  public Tour runTwoOpt(Tour t) {
+  // since we have predefined clusters, after running 2-opt we know that
+  // there are no crossovers, so for each vertex v in a cluster, we can search
+  // through all the clusters and see if we can find a smaller distance between
+  // its neighbour.
+  private Tour nearestNeighbours(Tour t) {
+    Tour bestTour =  t;
+
+    for(int i = 0; i < TOUR_SIZE - 1; i++) {
+      int node = TOUR_SIZE + i; // dont worry about wrapovers
+      City currentCity = t.getCity(node%TOUR_SIZE);
+      City pastCity = t.getCity((node-1)%TOUR_SIZE);
+      City nextCity = t.getCity((node+1)%TOUR_SIZE);
+      //System.out.println((node-1)%TOUR_SIZE + ", " + (node)%TOUR_SIZE + ", " + (node+1)%TOUR_SIZE);
+
+      ArrayList<City> cityStates = states.get(currentCity.getState());
+
+      double pastToCurrent = t.computeEdge((node-1)%TOUR_SIZE, node%TOUR_SIZE);
+      double currentToNext = t.computeEdge(node%TOUR_SIZE, (node+1)%TOUR_SIZE);
+      double distance = pastToCurrent + currentToNext;
+
+      for(City c: cityStates) {
+        double newPastToCurrent = t.computePair(pastCity.getX(), c.getX(), pastCity.getY(), c.getY());
+        double newCurrentToNext = t.computePair(c.getX(), nextCity.getX(), c.getY(), nextCity.getY());
+        double newDistance = newPastToCurrent + newCurrentToNext;
+
+        if(newDistance < distance) {
+          Tour temp = new Tour(TOUR_SIZE);
+          for(int j = 0; j < i; j++) {
+            temp.addCity(bestTour.getCity(j));
+          }
+          temp.addCity(c);
+          for(int j = i+1; j < TOUR_SIZE; j++) {
+            temp.addCity(bestTour.getCity(j));
+          }
+
+          bestTour = temp;
+
+        }
+      }
+    }
+
+    return bestTour;
+  }
+  private Tour runTwoOpt(Tour t) {
     Tour bestTour = t;
     // for any this edge
     for(int i = 0; i < TOUR_SIZE; i++) {

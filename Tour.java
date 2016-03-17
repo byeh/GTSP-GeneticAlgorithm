@@ -88,7 +88,8 @@ public class Tour {
   public double computeEdge(int index1, int index2) {
     return computePair(tour.get(index1).getX(), tour.get(index2).getX(), tour.get(index1).getY(), tour.get(index2).getY());
   }
-  private double computePair(double x1, double x2, double y1, double y2) {
+
+  public double computePair(double x1, double x2, double y1, double y2) {
     double dx = x1-x2;
     double dy = y1-y2;
     double distance = Math.sqrt((dx*dx) + (dy*dy));

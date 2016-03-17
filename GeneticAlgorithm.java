@@ -27,23 +27,24 @@ public class GeneticAlgorithm {
     "RI", "SC", "SD", "TN", "TX", "UT", 
     "VT", "VA", "WA", "WV", "WI", "WY"};
 
+  // A set tours for our initial population and our parameters
+  private int populationSize = 50;
+  private int naturalSelection = 20; // top 20 will survive
+  private int generations = 50;
+  private int currentGeneration = 1;
+  private HashMap <Integer, Tour> population;
+
   // Google Maps related Constants
   private static final String GOOGLE_MAPS_API_KEY = "&key=" + System.getenv("GOOGLE_MAPS_API_KEY");
   private static final String GOOGLE_MAPS_URL_HEAD = "https://maps.googleapis.com/maps/api/staticmap?center=39.833333,-98.583333&zoom=4&size=640x640&maptype=roadmap&path=color:0xff0000ff|weight:3|";
 
-  
-
   // list of all states and cities contained in that state
-  HashMap <String, ArrayList<City>> states;
-
-  // A set tours for our initial population and our parameters
-  private int populationSize = 50;
-  private ArrayList <Tour> population;
+  private HashMap <String, ArrayList<City>> states;
 
   // lets run this cool genetic algorithm
   public GeneticAlgorithm() throws FileNotFoundException { 
     states = new HashMap<String, ArrayList<City>>();
-    population = new ArrayList<Tour>();   
+    population = new HashMap<Integer, Tour>();   
 
     run();
   }
@@ -53,43 +54,72 @@ public class GeneticAlgorithm {
     setParameters();
     importData();
     auditImport();
-    generateInitialPopulation();
+    runCycleOfLifeAndDeath(generations);
     findBest();
  
     showMetrics(startTime);
   }
 
+  private void runCycleOfLifeAndDeath(int cycles) {
+
+    for(int i = 1; i <= generations; i++) {
+      System.out.println("Currently on generation: " + currentGeneration + " of " + generations);
+      generatePopulation(populationSize);
+      simulateNaturalSelection();
+      currentGeneration++;
+      findBest();   
+    }
+  }
+
   private void setParameters() {
     // show verbose output
     verboseOutput = true;
-    populationSize = 1;
+    populationSize = 500;
+    naturalSelection = 50;
+    generations = 25;
+
     System.out.println("Running Experiment with population size of:" + populationSize);
   }
 
   private void findBest() {
-    int bestLength = population.get(0).getTourLength();
-    int bestIndex = 0;
-    for(int i = 0; i < population.size(); i++) {
-      if(population.get(i).getTourLength() < bestLength){
-        bestLength = population.get(i).getTourLength();
-        bestIndex = 1;
+    int bestLength = -1;
+    for(int length : population.keySet()) {
+      if(bestLength == -1) {
+        bestLength = length;
+      }
+      else if(length < bestLength){
+        bestLength = length;
       }
     }
-    System.out.print(GOOGLE_MAPS_URL_HEAD);
-    population.get(bestIndex).printTour();
-    System.out.print(GOOGLE_MAPS_API_KEY + '\n');
+    if(currentGeneration == generations) {
+      System.out.print(GOOGLE_MAPS_URL_HEAD);
+      population.get(bestLength).printTour();
+      System.out.print(GOOGLE_MAPS_API_KEY + '\n');
+      System.out.println("Best Tour Length: " + bestLength);      
+    }
+    else {
+      System.out.println("Best Tour of Generation " + currentGeneration + " is " + bestLength);
+    }
   }
 
   // this method generates a population of random tours and runs 2-opt on it
-  private void generateInitialPopulation() {
-    for(int i = 0; i < populationSize; i++) {
+  private void generatePopulation(int pop) {
+    for(int i = 0; i < pop; i++) {
       Tour temp = generateRandomTour();
-      //System.out.println(temp.getTourLength());
-      //System.out.print(temp.getTourLength() + " ");
       Tour temp2 = runTwoOpt(temp);
-      //System.out.println(temp2.getTourLength());
-      population.add(temp2);
+      population.put(temp2.getTourLength(),temp2);
     }
+  }
+
+  // purge everything but the top number of options based on natural selection value
+  // then regenerate more random solutions
+  private void simulateNaturalSelection() {
+    ArrayList keys = new ArrayList(population.keySet());
+    Collections.sort(keys);
+    for(int i = naturalSelection; i < keys.size(); i++){
+      population.remove(keys.get(i));
+    }
+    generatePopulation(populationSize - naturalSelection);
   }
 
   // this method generates a random tour of 49 states
@@ -108,15 +138,7 @@ public class GeneticAlgorithm {
     Tour bestTour = t;
     // for any this edge
     for(int i = 0; i < TOUR_SIZE; i++) {
-      //iteration = TOUR_SIZE();
-      // get any edge that is not adjacent to edge after or before
-      //System.out.println("Pick first edge:" + i + "," + (i+1)%TOUR_SIZE);
-
-      // we can either choose all edges that are not adjacent to the selected edge
-      // OR ignore any combination that we have selected before. 
       for(int k = 0; k < Math.min((TOUR_SIZE- (i+2)), TOUR_SIZE - 3); k++) {
-         //System.out.println("Pick second edge:" + (k+i+2)%TOUR_SIZE + "," + (k+i+3)%TOUR_SIZE);
-
         // vertex indicies of the 2 selected edges
         int a = i;
         int b = (i+1)%TOUR_SIZE;
@@ -160,12 +182,12 @@ public class GeneticAlgorithm {
         }
       }
     }
+    bestTour.computeTourLength();
     return bestTour;
   }
 
   // Method to import csv data for all the cities
   public void importData() throws FileNotFoundException {
-    System.out.println("Importing Data");
     Scanner scanner = new Scanner(new File("cities.csv"));
     scanner.useDelimiter(" ; ");
     
@@ -177,7 +199,6 @@ public class GeneticAlgorithm {
       addCityState(city);
     }
     scanner.close();
-    System.out.println("Done Importing Data");
   }
 
   // generates a Google Static Map with the tour

@@ -13,7 +13,7 @@ public class Tour {
     tour = new ArrayList<City>();
     tourSize = 0;
     maxSize = max;
-    tourLength = -1.0;
+    tourLength = 0;
   }
 
   public void addCity(City city) {
@@ -24,6 +24,10 @@ public class Tour {
     if(tourSize == maxSize) {
       computeTourLength();
     }
+  }
+
+  public City getCity(int index) {
+    return tour.get(index);
   }
 
   // replaces tour with new tour
@@ -62,7 +66,11 @@ public class Tour {
   }
 
   public void computeTourLength() {
-    tourLength = -1;
+    tourLength = 0;
+    if(maxSize != tourSize) {
+      System.out.println("ERROR: tour size mismatch" + tourSize);
+      System.exit(5);
+    }
     for(int i = 0; i < tourSize; i++) {
       if(i == tourSize - 1) {
         double distance = computePair(tour.get(i).getX(), tour.get(0).getX(),tour.get(i).getY(),tour.get(0).getY());
@@ -76,6 +84,10 @@ public class Tour {
     //System.out.println("Total Distance:" + (int)tourLength);
   }
 
+  // takes two vertices in tour and computes distance
+  public double computeEdge(int index1, int index2) {
+    return computePair(tour.get(index1).getX(), tour.get(index2).getX(), tour.get(index1).getY(), tour.get(index2).getY());
+  }
   private double computePair(double x1, double x2, double y1, double y2) {
     double dx = x1-x2;
     double dy = y1-y2;
@@ -85,9 +97,16 @@ public class Tour {
   }
 
   public void printTour() {
-    for(City city : tour) {
-      System.out.print(city.getCity() + " " + city.getState() + ",");
+    for(int i = 0; i < tour.size(); i++) {
+      String cityName = tour.get(i).getCity().replaceAll("\\s", "+");
+      String countyName = tour.get(i).getCounty().replaceAll("\\s", "+");
+      if(i == tour.size()-1) {
+        System.out.print(cityName + "," + countyName +"," + tour.get(i).getState() + "|");
+        System.out.print(tour.get(0).getCity().replaceAll("\\s", "+") + "," + tour.get(0).getCounty().replaceAll("\\s", "+") +"," + tour.get(0).getState());
+      }
+      else {
+        System.out.print(cityName + "," + countyName +"," + tour.get(i).getState() + "|");
+      }
     }
-    System.out.print("\n");
   }
 }

@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Map;
+import java.lang.Math;
 import java.io.FileNotFoundException;
 import java.util.StringTokenizer;
 
@@ -27,8 +28,8 @@ public class GeneticAlgorithm {
     "VT", "VA", "WA", "WV", "WI", "WY"};
 
   // Google Maps related Constants
-  private static final String GOOGLE_MAPS_API_KEY = System.getenv("GOOGLE_MAPS_API_KEY");
-  private static final String GOOGLE_MAPS_URL_HEAD = "https://maps.googleapis.com/maps/api/staticmap?center=39.833333, -98.583333&zoom=4&size=640x640&maptype=roadmap&path=color:0xff0000ff|weight:5|";
+  private static final String GOOGLE_MAPS_API_KEY = "&key=" + System.getenv("GOOGLE_MAPS_API_KEY");
+  private static final String GOOGLE_MAPS_URL_HEAD = "https://maps.googleapis.com/maps/api/staticmap?center=39.833333,-98.583333&zoom=4&size=640x640&maptype=roadmap&path=color:0xff0000ff|weight:3|";
 
   
 
@@ -61,27 +62,33 @@ public class GeneticAlgorithm {
   private void setParameters() {
     // show verbose output
     verboseOutput = true;
-    populationSize = 50000;
+    populationSize = 1;
     System.out.println("Running Experiment with population size of:" + populationSize);
   }
 
   private void findBest() {
-    int best = population.get(0).getTourLength();
-    for(Tour t : population) {
-      if(t.getTourLength() < best) {
-        best = t.getTourLength();
+    int bestLength = population.get(0).getTourLength();
+    int bestIndex = 0;
+    for(int i = 0; i < population.size(); i++) {
+      if(population.get(i).getTourLength() < bestLength){
+        bestLength = population.get(i).getTourLength();
+        bestIndex = 1;
       }
     }
-    System.out.println("Best tour for 2-opt is:" + best);
+    System.out.print(GOOGLE_MAPS_URL_HEAD);
+    population.get(bestIndex).printTour();
+    System.out.print(GOOGLE_MAPS_API_KEY + '\n');
   }
 
   // this method generates a population of random tours and runs 2-opt on it
   private void generateInitialPopulation() {
     for(int i = 0; i < populationSize; i++) {
       Tour temp = generateRandomTour();
+      //System.out.println(temp.getTourLength());
       //System.out.print(temp.getTourLength() + " ");
-      temp = runTwoOpt(temp);
-      population.add(temp);
+      Tour temp2 = runTwoOpt(temp);
+      //System.out.println(temp2.getTourLength());
+      population.add(temp2);
     }
   }
 
@@ -98,32 +105,61 @@ public class GeneticAlgorithm {
   }
 
   public Tour runTwoOpt(Tour t) {
-
     Tour bestTour = t;
+    // for any this edge
+    for(int i = 0; i < TOUR_SIZE; i++) {
+      //iteration = TOUR_SIZE();
+      // get any edge that is not adjacent to edge after or before
+      //System.out.println("Pick first edge:" + i + "," + (i+1)%TOUR_SIZE);
 
-    for(int i = 0; i < t.getTourSize() - 2; i++) {
-      for(int j = i + 2; j < t.getTourSize(); j++) {
-        Tour temp = new Tour(TOUR_SIZE);
-        temp.replaceTour(t.getTour());
-        City a = t.getTour().get(i);
-        City b = t.getTour().get(j);
+      // we can either choose all edges that are not adjacent to the selected edge
+      // OR ignore any combination that we have selected before. 
+      for(int k = 0; k < Math.min((TOUR_SIZE- (i+2)), TOUR_SIZE - 3); k++) {
+         //System.out.println("Pick second edge:" + (k+i+2)%TOUR_SIZE + "," + (k+i+3)%TOUR_SIZE);
 
-        // swap the two cities in the tour
-        temp.replaceCity(i,b);
-        temp.replaceCity(j,a);
-        temp.computeTourLength();
+        // vertex indicies of the 2 selected edges
+        int a = i;
+        int b = (i+1)%TOUR_SIZE;
+        int c = (k+i+2)%TOUR_SIZE;
+        int d = (k+i+3)%TOUR_SIZE;
 
-        if(temp.getTourLength() < bestTour.getTourLength()) {
-          bestTour = temp;
-          //System.out.println(bestTour.getTourLength() + " " + temp.getTourLength());
-        }
-        else {
-          //System.out.println(bestTour.getTourLength() + " " + temp.getTourLength());
+        double distanceAB = bestTour.computeEdge(a,b);
+        double distanceCD = bestTour.computeEdge(c,d);
+        double distanceAC = bestTour.computeEdge(a,c);
+        double distanceBD = bestTour.computeEdge(b,d);
+
+         // use the damn triangle inequality
+        if((distanceAB + distanceCD) > (distanceAC + distanceBD)) {
+          Tour newTour = new Tour(TOUR_SIZE);
+
+          // end of first subtour
+          for(int j = 0; j < a; j++) {
+            newTour.addCity(bestTour.getCity(j));
+          }
+
+          // new edge AC
+          newTour.addCity(bestTour.getCity(a));
+          newTour.addCity(bestTour.getCity(c));
+
+          for(int j = c - 1; j > b; j--) {
+            newTour.addCity(bestTour.getCity(j));
+          }
+          // add edge BD
+          newTour.addCity(bestTour.getCity(b));
+          newTour.addCity(bestTour.getCity(d));
+
+          // continue on
+          for(int j = d+1; j < TOUR_SIZE; j++) {
+            newTour.addCity(bestTour.getCity(j));
+          }
+          newTour.computeTourLength();
+          //System.out.println(newTour.getTourLength());
+          bestTour = newTour;
+          i = 0;
+          k = 0;
         }
       }
     }
-    //System.out.println(count);
-    //System.out.println(bestTour.getTourLength());
     return bestTour;
   }
 

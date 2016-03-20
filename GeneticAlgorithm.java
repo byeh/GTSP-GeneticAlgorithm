@@ -60,7 +60,7 @@ public class GeneticAlgorithm {
   // this method generates a population of random tours and runs 2-opt on it
   private void generatePopulation(int pop) {
     for(int i = 0; i < pop; i++) {
-      Tour temp = generateRandomTour();
+      Tour temp = new RandomTour().generateRandomTour(states);
       temp = new TwoOptAlgorithm().runTwoOpt(temp);
       //temp = nearestNeighbours(temp);
       //temp = runTwoOpt(temp);
@@ -82,62 +82,6 @@ public class GeneticAlgorithm {
     }
     generatePopulation(POPULATION_SIZE - GENERATION_SURVIVAL_RATE);
 
-  }
-
-  // this method generates a random tour of 49 states
-  private Tour generateRandomTour() {
-    Tour temp = new Tour(TSPConstants.TOUR_SIZE);
-    for(String state: states.keySet()) {
-      Random randomGenerator = new Random();
-      int randomIndex = randomGenerator.nextInt(states.get(state).size());
-      City selectedCity = states.get(state).get(randomIndex);
-      temp.addCity(selectedCity);
-    }
-    return temp;
-  }
-
-  // since we have predefined clusters, after running 2-opt we know that
-  // there are no crossovers, so for each vertex v in a cluster, we can search
-  // through all the clusters and see if we can find a smaller distance between
-  // its neighbour.
-  private Tour nearestNeighbours(Tour t) {
-    Tour bestTour =  t;
-
-    for(int i = 0; i < TSPConstants.TOUR_SIZE - 1; i++) {
-      int node = TSPConstants.TOUR_SIZE + i; // dont worry about wrapovers
-      City currentCity = t.getCity(node%TSPConstants.TOUR_SIZE);
-      City pastCity = t.getCity((node-1)%TSPConstants.TOUR_SIZE);
-      City nextCity = t.getCity((node+1)%TSPConstants.TOUR_SIZE);
-      //System.out.println((node-1)%TSPConstants.TOUR_SIZE + ", " + (node)%TSPConstants.TOUR_SIZE + ", " + (node+1)%TSPConstants.TOUR_SIZE);
-
-      ArrayList<City> cityStates = states.get(currentCity.getState());
-
-      double pastToCurrent = t.computeEdge((node-1)%TSPConstants.TOUR_SIZE, node%TSPConstants.TOUR_SIZE);
-      double currentToNext = t.computeEdge(node%TSPConstants.TOUR_SIZE, (node+1)%TSPConstants.TOUR_SIZE);
-      double distance = pastToCurrent + currentToNext;
-
-      for(City c: cityStates) {
-        double newPastToCurrent = t.computePair(pastCity.getX(), c.getX(), pastCity.getY(), c.getY());
-        double newCurrentToNext = t.computePair(c.getX(), nextCity.getX(), c.getY(), nextCity.getY());
-        double newDistance = newPastToCurrent + newCurrentToNext;
-
-        if(newDistance < distance) {
-          Tour temp = new Tour(TSPConstants.TOUR_SIZE);
-          for(int j = 0; j < i; j++) {
-            temp.addCity(bestTour.getCity(j));
-          }
-          temp.addCity(c);
-          for(int j = i+1; j < TSPConstants.TOUR_SIZE; j++) {
-            temp.addCity(bestTour.getCity(j));
-          }
-
-          bestTour = temp;
-
-        }
-      }
-    }
-
-    return bestTour;
   }
 
   // returns the best tour found by this genetic algorithm

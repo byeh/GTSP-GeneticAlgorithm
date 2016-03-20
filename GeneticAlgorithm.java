@@ -10,9 +10,6 @@ import java.util.StringTokenizer;
 
 public class GeneticAlgorithm {
 
-  // settings
-  private boolean verboseOutput = false;
-
   // A set tours for our initial population and our parameters
   private int POPULATION_SIZE = 1;
   private int GENERATION_SURVIVAL_RATE = Math.max(1, (int) (POPULATION_SIZE * 0.25));
@@ -22,10 +19,6 @@ public class GeneticAlgorithm {
 
   // list of all states and cities contained in that state
   private HashMap <String, ArrayList<City>> states;
-
-  // Google Maps related Constants
-  private static final String GOOGLE_MAPS_API_KEY = "&key=" + System.getenv("GOOGLE_MAPS_API_KEY");
-  private static final String GOOGLE_MAPS_URL_HEAD = "https://maps.googleapis.com/maps/api/staticmap?center=39.833333,-98.583333&zoom=4&size=640x640&maptype=roadmap&path=color:0xff0000ff|weight:3|";
 
   // lets run this cool genetic algorithm
   public GeneticAlgorithm(HashMap <String, ArrayList<City>> s) throws FileNotFoundException { 
@@ -40,14 +33,11 @@ public class GeneticAlgorithm {
 
     // setup experiment
     setParameters();
-    
-    auditImport();
 
     // run experiment
     runGeneticAlgorithm(TOTAL_GENERATIONS);
 
     // get results
-    findBest();
     showMetrics(startTime);
   }
 
@@ -64,9 +54,6 @@ public class GeneticAlgorithm {
   }
 
   private void setParameters() {
-    // show verbose output
-    verboseOutput = true;
-
     System.out.println("Running Experiment with population size of:" + POPULATION_SIZE); 
   }  
 
@@ -74,7 +61,7 @@ public class GeneticAlgorithm {
   private void generatePopulation(int pop) {
     for(int i = 0; i < pop; i++) {
       Tour temp = generateRandomTour();
-      temp = runTwoOpt(temp);
+      temp = new TwoOptAlgorithm().runTwoOpt(temp);
       //temp = nearestNeighbours(temp);
       //temp = runTwoOpt(temp);
       population.put(temp.getTourLength(),temp);
@@ -153,59 +140,8 @@ public class GeneticAlgorithm {
     return bestTour;
   }
 
-  private Tour runTwoOpt(Tour t) {
-    Tour bestTour = t;
-    // for any this edge
-    for(int i = 0; i < TSPConstants.TOUR_SIZE; i++) {
-      for(int k = 0; k < Math.min((TSPConstants.TOUR_SIZE- (i+2)), TSPConstants.TOUR_SIZE - 3); k++) {
-        // vertex indicies of the 2 selected edges
-        int a = i;
-        int b = (i+1)%TSPConstants.TOUR_SIZE;
-        int c = (k+i+2)%TSPConstants.TOUR_SIZE;
-        int d = (k+i+3)%TSPConstants.TOUR_SIZE;
-
-        double distanceAB = bestTour.computeEdge(a,b);
-        double distanceCD = bestTour.computeEdge(c,d);
-        double distanceAC = bestTour.computeEdge(a,c);
-        double distanceBD = bestTour.computeEdge(b,d);
-
-         // use the damn triangle inequality
-        if((distanceAB + distanceCD) > (distanceAC + distanceBD)) {
-          Tour newTour = new Tour(TSPConstants.TOUR_SIZE);
-
-          // end of first subtour
-          for(int j = 0; j < a; j++) {
-            newTour.addCity(bestTour.getCity(j));
-          }
-
-          // new edge AC
-          newTour.addCity(bestTour.getCity(a));
-          newTour.addCity(bestTour.getCity(c));
-
-          for(int j = c - 1; j > b; j--) {
-            newTour.addCity(bestTour.getCity(j));
-          }
-          // add edge BD
-          newTour.addCity(bestTour.getCity(b));
-          newTour.addCity(bestTour.getCity(d));
-
-          // continue on
-          for(int j = d+1; j < TSPConstants.TOUR_SIZE; j++) {
-            newTour.addCity(bestTour.getCity(j));
-          }
-          newTour.computeTourLength();
-          //System.out.println(newTour.getTourLength());
-          bestTour = newTour;
-          i = 0;
-          k = 0;
-        }
-      }
-    }
-    bestTour.computeTourLength();
-    return bestTour;
-  }
-
-  private void findBest() {
+  // returns the best tour found by this genetic algorithm
+  public Tour findBest() {
     int bestLength = -1;
     for(int length : population.keySet()) {
       if(bestLength == -1) {
@@ -215,64 +151,9 @@ public class GeneticAlgorithm {
         bestLength = length;
       }
     }
-    if(currentGeneration == TOTAL_GENERATIONS) {
-      System.out.print(GOOGLE_MAPS_URL_HEAD);
-      population.get(bestLength).printTour();
-      System.out.print(GOOGLE_MAPS_API_KEY + '\n');
-      System.out.println("Best Tour Length: " + bestLength);      
-    }
-    else {
-      System.out.println("Best Tour of Generation " + currentGeneration + " is " + bestLength);
-    }
+    return population.get(bestLength);
   }
 
-  // Method to import csv data for all the cities
-
-
-  // generates a Google Static Map with the tour
-  private void printTour(Tour t) {
-    ArrayList <City> tour = t.getTour();
-    for(City city : tour) {
-      System.out.print(city.getX() + "," + city.getY() + "|");
-    }
-  }
-
-  // method to verify integrity of processed data against initial data
-  private void auditImport() {
-
-    int numCities = 0;
-
-    // verify that number of states is correct
-    if(states.size() != TSPConstants.NUMBER_STATES) {
-      System.out.println("ERROR: Number of States is: " + states.size());
-      System.exit(1);
-    }
-
-    // verify that state abbrievations are correct:
-    for(String stateAbbr : TSPConstants.STATE_LIST) {
-      if(!states.containsKey(stateAbbr)) {
-        System.out.println("ERROR: " + stateAbbr + " not in list");
-        System.exit(2);
-      }
-    }
-    
-    // verify that number of cities is correct
-    for(String state : states.keySet()) {
-      numCities = numCities + states.get(state).size();
-    }
-
-    // verity that no cities magically disappeared
-    if(numCities != TSPConstants.NUMBER_CITIES) {
-      System.out.println("ERROR: number of cities is: " + numCities);
-      System.out.println(states.keySet());
-      for(String state : states.keySet()) {
-        System.out.println(state + ": " + states.get(state).size());
-      }
-      System.exit(3);
-    }
-
-    //System.out.println(GOOGLE_MAPS_API_KEY);
-  }
 
   private void auditData() {
         // verify that tour generated is valid size

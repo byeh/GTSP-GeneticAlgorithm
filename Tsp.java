@@ -11,13 +11,14 @@ class Tsp {
 
   // input data of cities split into states
   private HashMap <String, ArrayList<City>> states;
-
+  private GeneticAlgorithm data;
+  private Tour bestTour;
 
   Tsp() throws FileNotFoundException { 
-    states = new HashMap<String,ArrayList<City>>();
     states = new ImportData().importData();
-
-    GeneticAlgorithm data = new GeneticAlgorithm(states);
+    data = new GeneticAlgorithm(states);
+    bestTour = data.findBest();
+    new DisplayResults().print(bestTour);
     }
 
   // entry point for the application

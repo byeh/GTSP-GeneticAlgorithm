@@ -17,8 +17,8 @@ public class RandomTour {
   // this method generates a random tour of 49 states
   public Tour generateRandomTour(HashMap <String, ArrayList<City>> states) {
     Tour temp = new Tour(TSPConstants.TOUR_SIZE);
+    Random randomGenerator = new Random();
     for(String state: states.keySet()) {
-      Random randomGenerator = new Random();
       int randomIndex = randomGenerator.nextInt(states.get(state).size());
       City selectedCity = states.get(state).get(randomIndex);
       temp.addCity(selectedCity);

@@ -49,6 +49,24 @@ public class Tour {
     tour.set(i,c);
   }
 
+  public Tour swapCity(int a, int b) {
+    City cityA = tour.get(a);
+    City cityB = tour.get(b);
+    tour.set(a, cityB);
+    tour.set(b, cityA);
+    return this;
+  }
+
+  public boolean containState(City c) {
+    boolean found = false;
+    for(City city : tour) {
+      if(city.getState().equals(c.getState())) {
+        return true;
+      }
+    }
+    return found;
+  }
+
   public ArrayList<City> getTour() {
     return tour;
   }
@@ -107,6 +125,20 @@ public class Tour {
       }
       else {
         System.out.print(cityName + "," + countyName +"," + tour.get(i).getState() + "|");
+      }
+    }
+  }
+
+  public void printTourLine() {
+    for(int i = 0; i < tour.size(); i++) {
+      String cityName = tour.get(i).getCity();
+      String countyName = tour.get(i).getCounty();
+      if(i == tour.size()-1) {
+        System.out.println(cityName + "," + countyName +"," + tour.get(i).getState());
+        System.out.println(tour.get(0).getCity() + "," + tour.get(0).getCounty() +"," + tour.get(0).getState());
+      }
+      else {
+        System.out.println(cityName + "," + countyName +"," + tour.get(i).getState());
       }
     }
   }

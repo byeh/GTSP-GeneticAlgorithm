@@ -14,6 +14,13 @@ public class TwoOptAlgorithm {
 
   }
 
+  public Tour runTwoOptSwap(Tour t) {
+    Tour best = t;
+    best = runTwoOpt(best);
+    return best;
+  }
+
+  // executes Two-Opt then swaps. 
   public Tour runTwoOpt(Tour t) {
     Tour bestTour = t;
     // for any this edge
@@ -65,6 +72,26 @@ public class TwoOptAlgorithm {
       }
     }
     bestTour.computeTourLength();
+    bestTour = runSwap(bestTour);
     return bestTour;
+  }
+
+
+  public Tour runSwap(Tour t) {
+
+    Tour bestTour = t;
+    for(int i = 0; i < t.getTourSize() - 1; i++) {
+      for(int j = i+1; j < t.getTourSize(); j++) {
+        Tour currentTour = bestTour.swapCity(i,j);
+        currentTour.computeTourLength();
+        if(currentTour.getTourLength() < bestTour.getTourLength()) {
+          bestTour = currentTour;
+          bestTour = runTwoOpt(bestTour);
+          i = 0;
+          j = i+1;
+        }
+      }
+    }
+    return t;
   }
 }

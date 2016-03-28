@@ -14,7 +14,7 @@ public class GeneticAlgorithm {
   // A set tours for our initial population and our parameters
   private int INITIAL_POPULATION_SIZE = 50;
   private int NUMBER_OF_ISOLATED_POPULATIONS = 10;
-  private int TERMINATION_CONDITION = 10;
+  private int TERMINATION_CONDITION = 150;
   private int REPLICATON_SIZE = (int) (INITIAL_POPULATION_SIZE * 0.4);
   private int REPRODUCTION_RATE = (int) (INITIAL_POPULATION_SIZE * 0.6);
   private int TOTAL_GENERATIONS = 10;
@@ -38,7 +38,7 @@ public class GeneticAlgorithm {
   }
 
   private void run() throws FileNotFoundException {
-    long startTime = System.currentTimeMillis();
+    
 
     // setup experiment
     setParameters();
@@ -51,7 +51,7 @@ public class GeneticAlgorithm {
     runGeneticAlgorithm(TOTAL_GENERATIONS);
 
     // get results
-    showMetrics(startTime);
+    
   }
 
   private void setParameters() {
@@ -102,6 +102,7 @@ public class GeneticAlgorithm {
       Tour child;
       if(location == NUMBER_OF_ISOLATED_POPULATIONS) {
         child = new OrderedCrossover().mrOrderedCrossover(parentA, parentB,  states);
+        child = new TwoOptAlgorithm().runTwoOpt(child);
       }
       else {
         child = new OrderedCrossover().rOrderedCrossover(parentA, parentB,  states);
@@ -194,7 +195,7 @@ public class GeneticAlgorithm {
     for(int i = 0; i < replicateNum; i++) {
       if(i < 10) {
         Tour t = temp.get(orderedPopulation.get(i));
-        t = new TwoOptAlgorithm().runTwoOptSwap(t);
+        t = new TwoOptAlgorithm().runTwoOpt(t);
       }
       population.add(temp.get(orderedPopulation.get(i)));
     }
@@ -258,15 +259,5 @@ public class GeneticAlgorithm {
     // }
   }
 
-  // print some metrics
-  private void showMetrics(long startTime) {
-    long stopTime = System.currentTimeMillis();
-    long millis = stopTime - startTime;
-    long second = (millis / 1000) % 60;
-    long minute = (millis / (1000 * 60)) % 60;
-    long hour = (millis / (1000 * 60 * 60)) % 24;
-    millis = millis % 1000;
-    String time = String.format("Elapsed time: " + "%d" + "h " + "%d" + "m " + "%d" + "s " + "%d" + "ms", hour, minute, second, millis);
-    System.out.println(time);
-  }
+
 }

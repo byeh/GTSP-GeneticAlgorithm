@@ -130,26 +130,33 @@ public class Tour {
     for(int i = 0; i < tour.size(); i++) {
       String cityName = tour.get(i).getCity().replaceAll("\\s", "+");
       String countyName = tour.get(i).getCounty().replaceAll("\\s", "+");
+      String stateName = TSPConstants.STATE_NAME.get(tour.get(i).getState());
+
       if(i == tour.size()-1) {
-        System.out.print(cityName + "," + countyName +"," + tour.get(i).getState() + "|");
-        System.out.print(tour.get(0).getCity().replaceAll("\\s", "+") + "," + tour.get(0).getCounty().replaceAll("\\s", "+") +"," + tour.get(0).getState());
+        System.out.print(cityName + "," + countyName +"," + stateName + "|");
+        System.out.print(tour.get(0).getCity().replaceAll("\\s", "+") + "," + tour.get(0).getCounty().replaceAll("\\s", "+") +"," + TSPConstants.STATE_NAME.get(tour.get(0).getState()));
       }
       else {
-        System.out.print(cityName + "," + countyName +"," + tour.get(i).getState() + "|");
+        System.out.print(cityName + "," + countyName +"," + stateName + "|");
       }
     }
   }
 
   public void printTourLine() {
     for(int i = 0; i < tour.size(); i++) {
-      String cityName = tour.get(i).getCity();
-      String countyName = tour.get(i).getCounty();
+      City c = tour.get(i);
+      double latitude = c.getX();
+      double longitude = c.getY();
+      String cityName = c.getCity();
+      String countyName = c.getCounty();
+      String stateName = c.getState();
+
       if(i == tour.size()-1) {
-        System.out.println(cityName + "," + countyName +"," + tour.get(i).getState());
-        System.out.println(tour.get(0).getCity() + "," + tour.get(0).getCounty() +"," + tour.get(0).getState());
+        System.out.println(latitude + "|"  + longitude + "|" + cityName + "|" + countyName +"|" + stateName);
+        //System.out.println(tour.get(0).getCity() + "," + tour.get(0).getCounty() +"," + tour.get(0).getState());
       }
       else {
-        System.out.println(cityName + "," + countyName +"," + tour.get(i).getState());
+        System.out.println(latitude + "|"  + longitude + "|" + cityName + "|" + countyName +"|" + stateName);
       }
     }
   }

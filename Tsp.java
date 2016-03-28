@@ -19,6 +19,7 @@ class Tsp {
     long startTime = System.currentTimeMillis();
     data = new GeneticAlgorithm(states);
     bestTour = data.findBest();
+    bestTour.printTourLine();
     new DisplayResults().print(bestTour);
     showMetrics(startTime);
     }

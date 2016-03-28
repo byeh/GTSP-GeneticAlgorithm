@@ -118,6 +118,6 @@ public class TwoOptAlgorithm {
         }
       }
     }
-    return t;
+    return bestTour;
   }
 }

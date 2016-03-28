@@ -12,10 +12,10 @@ import java.util.StringTokenizer;
 public class GeneticAlgorithm {
 
   // A set tours for our initial population and our parameters
-  private int INITIAL_POPULATION_SIZE = 2000;
-  private int REPLICATON_SIZE = 800;
-  private int REPRODUCTION_RATE = 1200;
-  private int TOTAL_GENERATIONS = 25;
+  private int INITIAL_POPULATION_SIZE = 500;
+  private int REPLICATON_SIZE = 50;
+  private int REPRODUCTION_RATE = 450;
+  private int TOTAL_GENERATIONS = 10;
   private int currentGeneration = 1;
   private static final double DEATH_POW = 0.375;
   private static final double REPROD_POW = 0.375;
@@ -24,7 +24,7 @@ public class GeneticAlgorithm {
   private ArrayList <Tour> population;
 
   // list of all states and cities contained in that state
-  private HashMap <String, ArrayList<City>> states;
+  public HashMap <String, ArrayList<City>> states;
   private Random randomGenerator = new Random();
 
   // lets run this cool genetic algorithm
@@ -57,7 +57,7 @@ public class GeneticAlgorithm {
     for(int i = 1; i < TOTAL_GENERATIONS; i++) {
       System.out.println("Currently on generation: " + currentGeneration + " of " + TOTAL_GENERATIONS);
       generatePopulation(Math.max(0,INITIAL_POPULATION_SIZE - population.size()));
-      simulateNaturalSelection();
+      simulateNaturalSelectionB();
       reproduction();
       currentGeneration++;
       findBest();   
@@ -69,7 +69,7 @@ public class GeneticAlgorithm {
     System.out.println("GENERATING: " + pop + " tours");
     for(int i = 0; i < pop; i++) {
       Tour temp = new RandomTour().generateRandomTour(states);
-      temp = new TwoOptAlgorithm().runTwoOptSwap(temp);
+      temp = new TwoOptAlgorithm().runTwoOpt(temp);
       //temp = new NearestNeighbour(states).nearestNeighbours(temp);
       //temp = runTwoOpt(temp);
 
@@ -86,9 +86,9 @@ public class GeneticAlgorithm {
 
       Tour parentA = population.get(randomGenerator.nextInt(population.size()));
       Tour parentB = population.get(randomGenerator.nextInt(population.size()));
-      Tour child = new OrderedCrossover().orderedCrossover(parentA, parentB);
+      Tour child = new OrderedCrossover().rOrderedCrossover(parentA, parentB,  states);
       //child = new NearestNeighbour(states).nearestNeighbours(child);
-      child = new TwoOptAlgorithm().runTwoOptSwap(child);
+      child = new TwoOptAlgorithm().runTwoOpt(child);
       population.add(child);
     }
 
@@ -97,7 +97,7 @@ public class GeneticAlgorithm {
 
   // purge everything but the top number of options based on natural selection value
   // then regenerate more random solutions
-  private void simulateNaturalSelection() {
+  private void simulateNaturalSelectionA() {
     int bestLength = -1;
     int totalDeathAffinity = 0;
 
@@ -137,6 +137,7 @@ public class GeneticAlgorithm {
         if(spinner <= cumulativeDeathAffinity.get(i) && !winner) {
           winner = true;
           index = i;
+          totalDeathAffinity = totalDeathAffinity - popDeathAffinity.get(index);
           //System.out.println(index);
         }
         // reduce cumulative probabilities
@@ -150,12 +151,13 @@ public class GeneticAlgorithm {
       popDeathAffinity.remove(index);
       cumulativeDeathAffinity.remove(index);
     }
-    //System.out.println(deathAffinity/totalDeathAffinity);
+  }
 
-
-
-    //generatePopulation(POPULATION_SIZE - GENERATION_SURVIVAL_RATE);
-
+  private void simulateNaturalSelectionB() {
+    HashMap<Integer,Tour> orderedPopulation = new HashMap<Integer,Tour>();
+    for(Tour t : population) {
+      orderedPopulation.put(t.getTourLength(), t);
+    }
   }
 
   // returns the best tour found by this genetic algorithm

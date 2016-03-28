@@ -14,14 +14,25 @@ public class TwoOptAlgorithm {
 
   }
 
-  public Tour runTwoOptSwap(Tour t) {
-    Tour best = t;
-    best = runTwoOpt(best);
+  public Tour runTwoOpt(Tour t) {
+    Tour best = new Tour(t);
+    best = runTwoOptHelper(best);
     return best;
   }
 
-  // executes Two-Opt then swaps. 
-  public Tour runTwoOpt(Tour t) {
+  public Tour runSwap(Tour t) {
+    return runSwapHelper(t,0);
+  }
+
+  public Tour runOneSwap(Tour t) {
+    return runSwapHelper(t,1);
+  }
+
+  /*
+  param = 0: find all 2-opts
+  param = 1: do one 2-opt swap
+  */
+  public Tour runTwoOptHelper(Tour t) {
     Tour bestTour = t;
     // for any this edge
     for(int i = 0; i < TSPConstants.TOUR_SIZE; i++) {
@@ -72,12 +83,14 @@ public class TwoOptAlgorithm {
       }
     }
     bestTour.computeTourLength();
-    bestTour = runSwap(bestTour);
     return bestTour;
   }
 
-
-  public Tour runSwap(Tour t) {
+  /* 
+  param = 0: Run all swaps
+  param = 1: Run one swap
+  */
+  private Tour runSwapHelper(Tour t, int param) {
 
     Tour bestTour = t;
     for(int i = 0; i < t.getTourSize() - 1; i++) {

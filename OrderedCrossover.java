@@ -15,7 +15,24 @@ public class OrderedCrossover {
 
   }
 
-  public Tour orderedCrossover(Tour a, Tour b) {
+  public Tour orderedCrossover(Tour a, Tour b, HashMap <String,ArrayList<City>> states) {
+    return orderedCrossoverHelper(a,b,0,states);
+  }
+
+  public Tour rOrderedCrossover(Tour a, Tour b, HashMap <String,ArrayList<City>> states) {
+    return orderedCrossoverHelper(a,b,1,states);
+  }
+
+  public Tour mrOrderedCrossover(Tour a, Tour b, HashMap <String,ArrayList<City>> states) {
+    return orderedCrossoverHelper(a,b,2,states);
+  }
+
+  /* 
+  type = 0: standard order crossover OX
+  type = 1: include all rotations and reversals of children rOX
+  type = 2: rotation of cut points through all cities mrOX
+  */
+  private Tour orderedCrossoverHelper(Tour a, Tour b, int type, HashMap <String, ArrayList<City>> states) {
     Random randomGenerator = new Random();
     double rand = Math.random();
 
@@ -35,46 +52,106 @@ public class OrderedCrossover {
     /* generating first component of the child using tour a with index between the first cut and the second cut. Passing over the cities within the cutpoints maintained at the same position as the parent. The cities that are included are between the smaller index (inclusive) and the larger index (noninclusive)
     */
 
-    Tour childA = generateChild(a,b,firstCut,secondCut);
-    //validateTour(childA);;
-    Tour childB = generateChild(b,a,firstCut,secondCut);
+    Tour bestTour = generateChild(a,b,firstCut,secondCut,0);
+    Tour temp = generateChild(b,a,firstCut,secondCut,0);
     //validateTour(childB);
-    if(childA.getTourLength() < childB.getTourLength()) {
-      return childA;
+    if(temp.getTourLength() < bestTour.getTourLength()) {
+      bestTour = temp;
     }
-    else {
-      return childB;
-    }
+    // rOX subroutine
+    if(type > 0) {
+      for(int i = 1; i < TSPConstants.TOUR_SIZE - Math.abs(firstCut - secondCut); i++) {
+        //System.out.println(i);
+        temp = generateChild(a,b,firstCut,secondCut,i);
+
+        if(temp.getTourLength() < bestTour.getTourLength()) {
+          bestTour = temp;
+        }
+
+        temp = generateChild(b,a,firstCut,secondCut,i);
+        if(temp.getTourLength() < bestTour.getTourLength()) {
+          bestTour = temp;
+        }
+      }
+    }     
+    // mrOX subroutine
+    if(type > 1) {
+      City cityA = bestTour.getCity(firstCut);
+      City cityB = bestTour.getCity(secondCut - 1); 
+      String stateA = cityA.getState();
+      String stateB = cityB.getState();
+      ArrayList<City> cityStatesA = states.get(stateA);
+      ArrayList<City> cityStatesB = states.get(stateB);
+
+      for(City c : cityStatesA) {
+        Tour modifiedA = new Tour(bestTour);
+        modifiedA.replaceCity(firstCut, c);
+        if(modifiedA.getTourLength() < temp.getTourLength()) {
+          bestTour = modifiedA;
+        }
+      }
+      for(City d : cityStatesB) {
+        Tour modifiedB = new Tour(bestTour);
+        modifiedB.replaceCity(secondCut-1, d);
+        if(modifiedB.getTourLength() < temp.getTourLength()) {
+          bestTour = modifiedB;
+        }
+      }
+  }
+    //System.out.println("orderedCrossover best tour: " + bestTour.getTourLength());
+    return bestTour;
   }  
 
-  private Tour generateChild(Tour a, Tour b, int firstCut, int secondCut){
+  private Tour generateChild(Tour a, Tour b, int firstCut, int secondCut, int offset){
 
-    Tour child = new Tour(TSPConstants.TOUR_SIZE);
-
+    Tour forwardChild = new Tour(TSPConstants.TOUR_SIZE);
+    Tour reverseChild = new Tour(TSPConstants.TOUR_SIZE);
     //a.printTourLine();
     for(int i = Math.min(firstCut,secondCut); i < Math.max(firstCut,secondCut); i++) {
-      child.addCity(a.getCity(i));
+      forwardChild.addCity(a.getCity(i));
+      reverseChild.addCity(a.getCity(i));
       //System.out.println(i + " " + a.getCity(i).getState());
     }
-    validateTour(child);
+    validateTour(forwardChild);
     /* Generating the remaining component of the child using tour b with index after the second cut warpping around to the first cut. Ensuring that there is no overlap
     */
     //System.out.println(child.getTourSize()); 
     for(int i = 0; i < TSPConstants.TOUR_SIZE; i++) {
-      int index = (Math.max(firstCut,secondCut) + i)%TSPConstants.TOUR_SIZE;
+      int index = (Math.max(firstCut,secondCut) + i + offset)%TSPConstants.TOUR_SIZE;
       City c = b.getCity(index);
 
-      if(child.getTourSize() < TSPConstants.TOUR_SIZE) {
-        if(!child.containState(c)) {
+      if(forwardChild.getTourSize() < TSPConstants.TOUR_SIZE) {
+        if(!forwardChild.containState(c)) {
           //System.out.println("ADDING:" + index + " " + c.getState());
-          child.addCity(c);
+          forwardChild.addCity(c);
         }
       } 
     }
 
+    for(int i = TSPConstants.TOUR_SIZE; i > 0; i--) {
+      int index = (Math.min(firstCut,secondCut) + i + offset)%TSPConstants.TOUR_SIZE;
+       City c = b.getCity(index);
+
+      if(reverseChild.getTourSize() < TSPConstants.TOUR_SIZE) {
+        if(!reverseChild.containState(c)) {
+          //System.out.println("ADDING:" + index + " " + c.getState());
+          reverseChild.addCity(c);
+        }
+      }      
+    }
+
     //System.out.println(child.getTourSize());
-    validateTour(child);
-    return child;
+    forwardChild.computeTourLength();
+    reverseChild.computeTourLength();
+    validateTour(forwardChild);
+    validateTour(reverseChild);
+    if(forwardChild.getTourLength() < reverseChild.getTourLength()) {
+      return forwardChild;
+    }
+    else {
+      return reverseChild;
+    }
+    
     //System.out.println(TSPConstants.TOUR_SIZE - Math.abs(firstCut - secondCut));
   }
 

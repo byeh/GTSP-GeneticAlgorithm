@@ -16,6 +16,16 @@ public class Tour {
     tourLength = 0;
   }
 
+  public Tour(Tour t) {
+    tour = new ArrayList<City>();
+    tourSize = t.getTourSize();
+    maxSize = t.getTourSize();
+    tourLength = t.getTourLength();
+    for(int i = 0; i < t.getTourSize(); i++) {
+      tour.add(t.getCity(i));
+    }
+  }
+
   public void addCity(City city) {
     if(tourLength < maxSize) {
       tour.add(city);
@@ -47,6 +57,7 @@ public class Tour {
 
   public void replaceCity(int i, City c) {
     tour.set(i,c);
+    computeTourLength();
   }
 
   public Tour swapCity(int a, int b) {

@@ -1,0 +1,49 @@
+42613.6111|89634.4444|Swisshaven Mobile Home Park|Green|WI
+43198.0269|92161.2814|Saude|Chickasaw|IA
+43501.899|93488.2675|Emmons|Freeborn|MN
+42849.4423|97398.3925|South Yankton|Cedar|NE
+43647.877|98878.498|Grass Ranch Colony|Brule|SD
+45961.392|103119.3392|Haley|Bowman|ND
+44990.5046|108864.0253|Elk Basin|Park|WY
+45325.84|110808.081|South Glastonbury|Park|MT
+46062.1|116846.2572|Zaza|Nez Perce|ID
+46078.2099|116979.5938|Rogersburg|Asotin|WA
+44974.8786|116862.9359|Oxbow|Baker|OR
+35968.3011|115895.0174|Calvada Springs|Inyo|CA
+36014.892|115267.956|Exploration Peak Park|Clark|NV
+37009.4454|110202.9073|Goulding|San Juan|UT
+36924.1682|109603.7227|Mexican Water Trading Post|Apache|AZ
+37024.4493|107488.1059|Allison|La Plata|CO
+36771.4195|105192.2248|Shuree|Colfax|NM
+36495.5818|102242.6754|Kerrick|Dallam|TX
+37006.6944|98565.9129|Stubbs|Barber|KS
+36638.9702|95107.7436|Cornatzar|Craig|OK
+36512.5756|94611.3332|South West City|McDonald|MO
+36114.2463|94259.0963|Wheeler|Washington|AR
+32989.8466|91224.833|Gassoway|East Carroll|LA
+32371.1111|90164.4444|Homewood Manor Mobile Home Community|Hinds|MS
+30997.1265|87288.308|Gandyville|Escambia|FL
+32141.8137|86005.7894|Downing|Montgomery|AL
+33550.628|84760.488|Chattahoochee Hills|Fulton|GA
+34899.5353|83185.7095|Long Bottom Ford|Oconee|SC
+35163.1518|82996.2503|Canaan|Transylvania|NC
+36303.7166|82455.9778|Green Hill|Washington|TN
+36973.6907|82111.4446|Head of Linefork|Letcher|KY
+37543.4555|80682.5744|Greenville|Monroe|WV
+38716.626|77236.86|Laurel Hill|Fairfax|VA
+38826.7797|77019.6984|Bellevue|District of Columbia|DC
+39403.586|75842.579|Cecilton Manor Mobile Home Park|Cecil|MD
+39517.8899|75602.7048|Thorntown|New Castle|DE
+39829.8|75187.8|Sherwood West|Gloucester|NJ
+41271.4859|72845.6553|Branford Hills|New Haven|CT
+41922.3204|71791.1812|Clarkville|Providence|RI
+42256.4833|71631.4558|Ward Corner|Worcester|MA
+43126.4729|71070.3394|Cedar Waters|Rockingham|NH
+43337.5818|70942.2845|South Lebanon|York|ME
+43198.4095|72647.3154|Houghtonville|Windham|VT
+42217.2804|78107.1312|Valley View Estates|Allegany|NY
+42045.6126|80269.7865|Avonia|Erie|PA
+41716.7165|83665.7702|Elden Heights|Lucas|OH
+41769.4444|85935.5556|Simmons Mobile Home Park|Cass|MI
+41758.3812|86254.1741|State Line|St. Joseph|IN
+42343.6111|88853.8889|Oak Lawn Mobile Home Park|Boone|IL

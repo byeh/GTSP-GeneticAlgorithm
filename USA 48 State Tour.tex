@@ -1,0 +1,132 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage,url,amssymb,epsfig,color,xspace,amsmath}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\setlength\parindent{0pt}
+\setlength{\parindent}{0pt}
+\usepackage{setspace}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+\usepackage{verbatim}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\setlist{noitemsep}
+\usetikzlibrary{arrows,shapes}
+\usepackage{hyperref}
+\usetikzlibrary{calc}
+
+% New column types that allow text wrap, fixed width columns and alignments
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% Creates a 2 column setup for definitions, notes and theorems so that
+% the note text can wrap and be nicely aligned
+\newcommand{\Definition}[1] {\categoryhelper{Definition}{#1}{1in}{5.5in}}
+\newcommand{\Lemma}[1] {\categoryhelper{Lemma}{#1}{1in}{5.5in}}
+\newcommand{\Note}[1] {\categoryhelper{Note:}{#1}{0.5in}{6in}}
+\newcommand{\Theorem}[1] {\categoryhelper{Theorem}{#1}{1in}{5.5in}}
+\newcommand{\TheoremName}[4]{\categoryhelper{#1}{#2}{#3}{#4}}
+\newcommand{\Problem}[1]{\categoryhelper{Problem}{#1}{1in}{5.5in}}
+% Helper method that takes in the width of the two columns as well 
+% as the title and description
+\newcommand{\categoryhelper}[4]
+  {
+    \begin{tabular*}{\linewidth}{@{} L{#3} @{\extracolsep{\fill}} p{#4}@{}}
+    \textbf{#1} & #2
+    \end{tabular*}
+  }
+\newcommand{\Question}{\paragraph{Question}}
+\newcommand{\Example}{\paragraph{Example}}
+\newcommand{\tabfour}{\hspace*{100pt}}
+\newcommand{\tabthree}{\hspace*{75pt}}
+\newcommand{\tabtwo}{\hspace*{50pt}}
+\newcommand{\tab}{\hspace*{25pt}}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\la}{\leftarrow}
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=blue,  %choose some color if you want links to stand out
+    }
+
+\begin{document}
+\begin{center}
+\textbf{\LARGE The Generalized Travelling Salesman Problem}\\
+\Large Finding the shortest possible USA 49 States Tour\\
+
+\large Brandon Yeh\\
+\end{center}
+
+\newpage
+
+\section{Overview}
+
+In the Generalized Travelling Salesman Problem (GTSP), the nodes $V$ are partitioned into $k$ clusters $V_1,V_2,...,V_k$ and the goal is to find a minimum cost circuit that includes exactly one node in each cluster.\\
+
+In this report, a well known genetic algorithm published by John Silberholz and Bruce L. Golden is used to attempt to find a good solution to the 49 tour problem. \url{http://josilber.scripts.mit.edu/GTSP.pdf}.\\
+
+However, this genetic algorithm only tests instances with up to 1000 nodes and a large number of clusters with approximately 5 nodes each. There is no computational data provided to show the performance of such an algorithm with siginificantly greater nodes and few smaller clusters. More specifically, this report will outline the performance of such an algorithm that contains 49 clusters of, on average, 2300 nodes each and 115475 nodes in total.\\
+
+Implementation of this algorithm is done in Java 8 Version 74, using only the native library provided in the SDK. The computer used to run the computational tests have the following properties:
+\begin{enumerate}
+  \item Acer Aspire 5755G-9417 with an Intel Core i7-2670QM 2.2GHz Processor
+  \item Operating System: Ubuntu 14.04.4 LTS running Linux Kernel 3.13.0-83-generic (i686)
+  \item 2x Crucial 4GB Single DDR3 1600 MT/s PC3-12800 CL11 SODIMM 204-Pin 1.35V/1.5V Notebook Memory CT51264BF160BJ 
+  \item Samsung Electronics 840 EVO-Series 250GB 2.5-Inch SATA III Single Unit Version Internal Solid State Drive MZ-7TE250BW 
+\end{enumerate}
+
+\section{Problem Formulation}
+
+This section of the report will formally define the problem that the modified genetic algorithm will solve.\\
+
+The following data is to be used as input to the genetic algorithm:
+\begin{enumerate}
+  \item A list of 49 States in the continental USA
+  \item A list of 115475 cities in the above 49 states provided from the following url:\\ \url{http://www.math.uwaterloo.ca/tsp/data/usa/usa115475_cities.txt}
+\end{enumerate}
+
+Furthermore, the following assumptions are made to simplify the problem:
+\begin{enumerate}
+  \item The travel distance between 2 cities provided in the list of cities above is the Euclidean distance between the pair of cities. This identical to the EUC\_2D method in TSPLIB.
+\end{enumerate}
+
+Finally, the problem is defined formally:
+\begin{tcolorbox}
+  Given a list of 49 states in the continental USA and a list of cities within each state, find the shortest tour through each 49 states, visiting exactly one city in each state.
+\end{tcolorbox}
+
+\section{The Genetic Algorithm}
+
+As noted in the overview, the algorithm used to sove this 49 State USA tour is designed by John Silberholz and Bruce L. Golden albiet, with a few modifications. 
+
+\subsection{Input Parameters}
+  The following input parameters are defined in the algorithm itself:
+  \begin{verbatim}
+    private int INITIAL_POPULATION_SIZE;
+    private int NUMBER_OF_ISOLATED_POPULATIONS;
+    private int TOTAL_GENERATIONS;
+    private int REPLICATON_SIZE;
+    private int REPRODUCTION_SIZE;
+    private int TERMINATION_CONDITION;
+  \end{verbatim}
+
+  We first define the size of each isolated population as well as the number of isolated populations 
+  \subsection{Isolated Population Generation}
+  \subsection{Natural Selection}
+  \subsection{Reproduction}
+  \subsection{Isolated Population Merging}
+
+\section{Heuristics and Subroutines}
+\section{Testing}
+
+  \subsection{Summary}
+
+\end{document}

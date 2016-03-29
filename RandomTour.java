@@ -18,7 +18,10 @@ public class RandomTour {
   public Tour generateRandomTour(HashMap <String, ArrayList<City>> states) {
     Tour temp = new Tour(TSPConstants.TOUR_SIZE);
     Random randomGenerator = new Random();
-    for(String state: states.keySet()) {
+    ArrayList<String> randomStates = new ArrayList<String>(states.keySet());
+    Collections.shuffle(randomStates);
+    for(String state: randomStates) {
+      System.out.print(state + " ");
       int randomIndex = randomGenerator.nextInt(states.get(state).size());
       City selectedCity = states.get(state).get(randomIndex);
       temp.addCity(selectedCity);

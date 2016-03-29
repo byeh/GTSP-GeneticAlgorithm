@@ -2,10 +2,10 @@ import java.lang.*;
 
 public class City {
 
-  Location coord;
-  String city;
-  String county;
-  String state;
+  private Location coord;
+  private String city;
+  private String county;
+  private String state;
   City() { 
     coord = new Location(0.0, 0.0);
     city = "";

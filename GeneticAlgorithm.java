@@ -12,13 +12,14 @@ import java.util.StringTokenizer;
 public class GeneticAlgorithm {
 
   // A set tours for our initial population and our parameters
-  private int INITIAL_POPULATION_SIZE = 1000;
+  private int INITIAL_POPULATION_SIZE = 200;
   private int NUMBER_OF_ISOLATED_POPULATIONS = 10;
-  private int TERMINATION_CONDITION = 25;
+  private int TOTAL_GENERATIONS = 50;
   private int REPLICATON_SIZE = (int) (INITIAL_POPULATION_SIZE * 0.4);
   private int REPRODUCTION_RATE = (int) (INITIAL_POPULATION_SIZE * 0.6);
-  private int TOTAL_GENERATIONS = 50;
+  private int TERMINATION_CONDITION = 250;
   private int currentGeneration = 1;
+
   private static final double DEATH_POW = 0.375;
   private static final double REPROD_POW = 0.375;
   private static final double MUTATION_POW = 0.05;
@@ -29,6 +30,8 @@ public class GeneticAlgorithm {
   public HashMap <String, ArrayList<City>> states;
   private Random randomGenerator = new Random();
   private long startTime;
+  private boolean importData = false;
+  private int maxStagnancy = 0;
 
   // lets run this cool genetic algorithm
   public GeneticAlgorithm(HashMap <String, ArrayList<City>> s) throws FileNotFoundException { 
@@ -39,8 +42,6 @@ public class GeneticAlgorithm {
   }
 
   private void run() throws FileNotFoundException {
-    
-
     // setup experiment
     setParameters();
 
@@ -50,13 +51,16 @@ public class GeneticAlgorithm {
     }
     // run experiment
     runGeneticAlgorithm(TOTAL_GENERATIONS);
-
-    // get results
-    
   }
 
   private void setParameters() {
-    System.out.println("Running Experiment with population size of:" +INITIAL_POPULATION_SIZE); 
+    System.out.println("Running Experiment with the following parameters");
+    System.out.println("Initial Isolated Population Size: " + INITIAL_POPULATION_SIZE);
+    System.out.println("Number of Isolated Populations: " + NUMBER_OF_ISOLATED_POPULATIONS);
+    System.out.println("Number of generations for Isolated populations: " + TOTAL_GENERATIONS);
+    System.out.println("Replication Size: " + REPLICATON_SIZE);
+    System.out.println("Reproduction Rate: " + REPRODUCTION_RATE);
+    System.out.println("Termination Generation for merged population: " + TERMINATION_CONDITION);
   }  
 
   private void runGeneticAlgorithm(int cycles) throws FileNotFoundException{
@@ -70,19 +74,21 @@ public class GeneticAlgorithm {
         reproduction(j);   
       }   
       currentGeneration++;
+      showMetrics(startTime);
     }
     mergePopulation();
+    System.out.println("Max Generations Stagnant: " + maxStagnancy);
   }
 
   // this method generates an initial population of random tours and runs 2-opt on it
   private void generatePopulation(int populationSize, int location) throws FileNotFoundException{
     //System.out.println("GENERATING: " + populationSize + " tours");
     ArrayList<Tour> population = isolatedPopulation.get(location);
-    if(location == 0 && currentGeneration == 1) {
-      // ArrayList<Tour> t = new ImportData().importTours();
-      // for(Tour importTour : t) {
-      //   population.add(importTour);
-      // }
+    if(location == 0 && currentGeneration == 1 && importData) {
+      ArrayList<Tour> t = new ImportData().importTours();
+      for(Tour importTour : t) {
+        population.add(importTour);
+      }
       for(int i = 0; i < populationSize - population.size(); i++) {
         Tour temp = new RandomTour().generateRandomTour(states);
         temp = new TwoOptAlgorithm().runTwoOpt(temp);
@@ -108,7 +114,7 @@ public class GeneticAlgorithm {
     }
     else {
       reprodNum = (int) (INITIAL_POPULATION_SIZE * NUMBER_OF_ISOLATED_POPULATIONS * 0.6);
-      reprodNum = Math.max(reprodNum, (INITIAL_POPULATION_SIZE * NUMBER_OF_ISOLATED_POPULATIONS) - population.size());
+      //reprodNum = Math.max(reprodNum, (INITIAL_POPULATION_SIZE * NUMBER_OF_ISOLATED_POPULATIONS) - population.size());
     }
     for(int i = 0; i < reprodNum; i++) {
       //System.out.println("Reproduction: " + i);
@@ -127,6 +133,8 @@ public class GeneticAlgorithm {
       //child = new TwoOptAlgorithm().runTwoOpt(child);
       population.add(child);
     }
+
+
 
     //System.out.println("New Population Size: " + population.size());
   }
@@ -233,7 +241,7 @@ public class GeneticAlgorithm {
     Tour bestTour = findBest();
     while(true) {
       System.out.println("On generation: " + counter);
-      System.out.println("Population size: " + isolatedPopulation.get(NUMBER_OF_ISOLATED_POPULATIONS).size());
+      //System.out.println("Population size: " + isolatedPopulation.get(NUMBER_OF_ISOLATED_POPULATIONS).size());
       simulateNaturalSelectionB(NUMBER_OF_ISOLATED_POPULATIONS);
       reproduction(NUMBER_OF_ISOLATED_POPULATIONS);
       Tour temp = findBest();
@@ -249,13 +257,16 @@ public class GeneticAlgorithm {
       }
       else {
         stagnancy++;
+        if(maxStagnancy < stagnancy) {
+          maxStagnancy = stagnancy;
+        }
         System.out.println("Tour length stagnated for: " + stagnancy + " generations.");
-        if(counter > TERMINATION_CONDITION) {
+        if(counter > TERMINATION_CONDITION && maxStagnancy > 20) {
           break;
         }
       }
-      bestTour.printTourLine();
-      new DisplayResults().print(bestTour);
+      //bestTour.printTourLine();
+      System.out.println("Best Tour Length:" + bestTour.getTourLength());
       showMetrics(startTime);
       counter++;
     }

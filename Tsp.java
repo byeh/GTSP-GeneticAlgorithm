@@ -14,10 +14,10 @@ class Tsp {
   private GeneticAlgorithm data;
   private Tour bestTour;
 
-  Tsp() throws FileNotFoundException { 
+  Tsp(boolean b) throws FileNotFoundException { 
     states = new ImportData().importData();
     long startTime = System.currentTimeMillis();
-    data = new GeneticAlgorithm(states);
+    data = new GeneticAlgorithm(states, b);
     bestTour = data.findBest();
     bestTour.printTourLine();
     new DisplayResults().print(bestTour);
@@ -26,7 +26,12 @@ class Tsp {
 
   // entry point for the application
   public static void main(String[] args) throws FileNotFoundException{
-    Tsp tsp = new Tsp();
+    if(args.length == 1 && args[0].equals("import")) {
+      Tsp tsp = new Tsp(true);
+    }
+    else {
+      Tsp tsp = new Tsp(false);
+    }
   }
 
   // print some metrics

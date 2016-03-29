@@ -47,3 +47,248 @@
 41769.4444|85935.5556|Simmons Mobile Home Park|Cass|MI
 41758.3812|86254.1741|State Line|St. Joseph|IN
 42343.6111|88853.8889|Oak Lawn Mobile Home Park|Boone|IL
+37512.0673|80647.5715|Wikel|Monroe|WV
+38646.5081|77504.4317|Yocum|Prince William|VA
+38826.7797|77019.6984|Bellevue|District of Columbia|DC
+39403.586|75842.579|Cecilton Manor Mobile Home Park|Cecil|MD
+39517.8899|75602.7048|Thorntown|New Castle|DE
+40442.6075|74144.0312|West Keansburg|Monmouth|NJ
+41495.3767|72423.9748|Bailey Beach|Middlesex|CT
+41922.3204|71791.1812|Clarkville|Providence|RI
+42518.9815|71429.5069|Village of Nagog Woods|Middlesex|MA
+43126.4729|71070.3394|Cedar Waters|Rockingham|NH
+43337.5818|70942.2845|South Lebanon|York|ME
+43116.7439|72906.489|Stratton Mountain|Bennington|VT
+42959.0776|74112.0256|Pine Meadow Mobile Home Park|Montgomery|NY
+42009.2215|79997.5521|Sampson|Erie|PA
+41947.5551|80554.2409|Conneaut|Ashtabula|OH
+41786.9911|83477.9893|Vienna|Monroe|MI
+41748.3836|85017.4646|Jamestown|Steuben|IN
+42493.8889|89062.2222|Northgate Estates|Winnebago|IL
+42613.6111|89634.4444|Swisshaven Mobile Home Park|Green|WI
+43198.0269|92161.2814|Saude|Chickasaw|IA
+43501.899|93488.2675|Emmons|Freeborn|MN
+42849.4423|97398.3925|South Yankton|Cedar|NE
+43647.877|98878.498|Grass Ranch Colony|Brule|SD
+45961.392|103119.3392|Haley|Bowman|ND
+44990.5046|108864.0253|Elk Basin|Park|WY
+45284.6507|111368.292|Big Sky|Gallatin|MT
+46062.1|116846.2572|Zaza|Nez Perce|ID
+46078.2099|116979.5938|Rogersburg|Asotin|WA
+44974.8786|116862.9359|Oxbow|Baker|OR
+35968.3011|115895.0174|Calvada Springs|Inyo|CA
+36070.8074|115084.1626|Whitney|Clark|NV
+37009.4454|110202.9073|Goulding|San Juan|UT
+36996.389|109368.9986|Red Mesa|Apache|AZ
+36982.7897|106272.2507|Toltec|Rio Arriba|NM
+37004.1804|106044.1884|Ortiz|Conejos|CO
+36495.5818|102242.6754|Kerrick|Dallam|TX
+36841.1416|99241.2179|Plainview|Woods|OK
+37002.248|98182.5666|Waldron|Harper|KS
+36512.5756|94611.3332|South West City|McDonald|MO
+35387.863|93528.5202|Morrison Bluff|Logan|AR
+32989.8466|91224.833|Gassoway|East Carroll|LA
+32421.8095|89974.2491|New Fannin|Rankin|MS
+30997.1265|87288.308|Gandyville|Escambia|FL
+32481.8041|85763.8442|Clough|Macon|AL
+34028.9259|84198.579|Johns Creek|Fulton|GA
+34899.5353|83185.7095|Long Bottom Ford|Oconee|SC
+35847.3284|82671.2483|Walnut Creek|Madison|NC
+36303.7166|82455.9778|Green Hill|Washington|TN
+36973.6907|82111.4446|Head of Linefork|Letcher|KY
+37004.1804|106044.1884|Ortiz|Conejos|CO
+36495.5818|102242.6754|Kerrick|Dallam|TX
+36703.3591|100828.212|Boyd|Beaver|OK
+37006.6944|98565.9129|Stubbs|Barber|KS
+36512.5756|94611.3332|South West City|McDonald|MO
+36114.2463|94259.0963|Wheeler|Washington|AR
+32989.8466|91224.833|Gassoway|East Carroll|LA
+32248.7586|89770.9085|Cross Roads|Rankin|MS
+30997.1265|87288.308|Gandyville|Escambia|FL
+32481.8041|85763.8442|Clough|Macon|AL
+34028.9259|84198.579|Johns Creek|Fulton|GA
+34899.5353|83185.7095|Long Bottom Ford|Oconee|SC
+35805.6594|82790.9729|Worley|Madison|NC
+36414.4444|82422.7778|Oak Grove Village Mobile Home Park|Washington|TN
+36973.6907|82111.4446|Head of Linefork|Letcher|KY
+37543.4555|80682.5744|Greenville|Monroe|WV
+38584.567|77789.9931|Weaverville|Fauquier|VA
+38908.445|76942.7522|Eastland Gardens|District of Columbia|DC
+38989.5547|76853.3053|Goddard|Prince George's|MD
+39592.3344|75630.2059|Reybold|New Castle|DE
+39829.8|75187.8|Sherwood West|Gloucester|NJ
+40730.023|73823.404|Kew Gardens Hills|Queens|NY
+41271.4859|72845.6553|Branford Hills|New Haven|CT
+41922.3204|71791.1812|Clarkville|Providence|RI
+42518.9815|71429.5069|Village of Nagog Woods|Middlesex|MA
+43126.4729|71070.3394|Cedar Waters|Rockingham|NH
+43337.5818|70942.2845|South Lebanon|York|ME
+43198.4095|72647.3154|Houghtonville|Windham|VT
+42009.2215|79997.5521|Sampson|Erie|PA
+41940.0|80531.6667|Theil's Mobile Home Park|Ashtabula|OH
+41836.6667|83878.8889|Coach Light Estates Mobile Home Park|Lenawee|MI
+41749.2173|85728.047|Vistula|Elkhart|IN
+42343.6111|88853.8889|Oak Lawn Mobile Home Park|Boone|IL
+42590.2778|89663.0556|Monroe Estates|Green|WI
+43501.899|93488.2675|Emmons|Freeborn|MN
+43160.5238|95143.3283|Birchwood Estates|Clay|IA
+42849.4423|97398.3925|South Yankton|Cedar|NE
+43647.877|98878.498|Grass Ranch Colony|Brule|SD
+45961.392|103119.3392|Haley|Bowman|ND
+44990.5046|108864.0253|Elk Basin|Park|WY
+45460.7587|112196.3817|Sheridan Trailer Court|Madison|MT
+46062.1|116846.2572|Zaza|Nez Perce|ID
+46078.2099|116979.5938|Rogersburg|Asotin|WA
+45487.3692|117429.6256|Lostine|Wallowa|OR
+41860.4463|120151.3388|Fort Bidwell|Modoc|CA
+39090.5001|114385.5561|Osceola|White Pine|NV
+38022.2066|111961.5824|Osiris|Garfield|UT
+36996.389|109368.9986|Red Mesa|Apache|AZ
+36933.6211|106998.9265|Dulce|Rio Arriba|NM
+38950.9441|77058.0329|Forest Hills|District of Columbia|DC
+39279.172|76469.824|Briarwood Estate|Baltimore|MD
+39684.5568|75636.8727|The Woods|New Castle|DE
+40253.1641|74728.7714|Colonial Lake Lands|Mercer|NJ
+41381.798|72073.619|Nautilus Park|New London|CT
+41897.2222|71795.0|Williams Mill|Providence|RI
+42528.983|71191.167|Fox Hill|Middlesex|MA
+43126.7538|70796.4439|Kennard Corner|York|ME
+42966.692|71091.499|Pages Corner|Rockingham|NH
+42727.5834|72464.5324|South Vernon|Windham|VT
+42092.1046|77925.4077|Level Acres Mobile Home Park|Allegany|NY
+41813.6682|79834.7748|Canadohta Lake|Crawford|PA
+41741.3889|81229.7222|Springlake Trailer Park|Lake|OH
+41737.7778|83693.8889|Hidden Creek Manufactured Home Community|Monroe|MI
+41753.3819|86110.8377|Granger|St. Joseph|IN
+42343.6111|88853.8889|Oak Lawn Mobile Home Park|Boone|IL
+42590.2778|89663.0556|Monroe Estates|Green|WI
+43198.0269|92161.2814|Saude|Chickasaw|IA
+43501.899|93488.2675|Emmons|Freeborn|MN
+42849.4423|97398.3925|South Yankton|Cedar|NE
+43647.877|98878.498|Grass Ranch Colony|Brule|SD
+45961.392|103119.3392|Haley|Bowman|ND
+44990.5046|108864.0253|Elk Basin|Park|WY
+45325.84|110808.081|South Glastonbury|Park|MT
+46062.1|116846.2572|Zaza|Nez Perce|ID
+46078.2099|116979.5938|Rogersburg|Asotin|WA
+45487.3692|117429.6256|Lostine|Wallowa|OR
+41860.4463|120151.3388|Fort Bidwell|Modoc|CA
+39090.5001|114385.5561|Osceola|White Pine|NV
+37125.835|109888.455|Halchita|San Juan|UT
+36996.389|109368.9986|Red Mesa|Apache|AZ
+37024.4493|107488.1059|Allison|La Plata|CO
+36771.4195|105192.2248|Shuree|Colfax|NM
+36495.5818|102242.6754|Kerrick|Dallam|TX
+36957.2516|98797.3123|Winchester|Woods|OK
+37006.6944|98565.9129|Stubbs|Barber|KS
+36512.5756|94611.3332|South West City|McDonald|MO
+36114.2463|94259.0963|Wheeler|Washington|AR
+32989.8466|91224.833|Gassoway|East Carroll|LA
+32248.7586|89770.9085|Cross Roads|Rankin|MS
+31544.0522|88349.4611|Fitee|Washington|AL
+30997.1265|87288.308|Gandyville|Escambia|FL
+33825.1041|84292.9789|Oak Grove|DeKalb|GA
+34899.5353|83185.7095|Long Bottom Ford|Oconee|SC
+35163.1518|82996.2503|Canaan|Transylvania|NC
+36414.4444|82422.7778|Oak Grove Village Mobile Home Park|Washington|TN
+36973.6907|82111.4446|Head of Linefork|Letcher|KY
+37543.4555|80682.5744|Greenville|Monroe|WV
+37877.0743|79505.5963|Sycamore Valley|Rockbridge|VA
+41902.2222|85707.7778|Golden Pond Estates|St. Joseph|MI
+42494.4642|87971.7461|Kelley Corners|Lake|IL
+43286.9266|90581.7934|Wild Rose|Richland|WI
+43496.6397|91289.5783|New Albin|Allamakee|IA
+44548.6111|93554.1667|East Gate Estates|Scott|MN
+45911.093|96623.576|White Rock Colony|Roberts|SD
+45964.6813|96690.3515|La Mars|Richland|ND
+42929.9678|103938.542|Story|Sioux|NE
+43929.6783|108003.7064|South Flat|Washakie|WY
+44659.65|111071.6077|Riverside|Gallatin|MT
+46078.2099|116979.5938|Rogersburg|Asotin|WA
+44948.768|116878.493|Pine Creek|Baker|OR
+43361.2714|116652.9049|Wilson|Owyhee|ID
+35968.3011|115895.0174|Calvada Springs|Inyo|CA
+36108.0258|115245.0006|Spring Valley|Clark|NV
+36688.3223|112349.3495|Ryan|Coconino|AZ
+37009.4454|110202.9073|Goulding|San Juan|UT
+37011.115|107601.9998|La Boca|La Plata|CO
+36771.4195|105192.2248|Shuree|Colfax|NM
+36495.5818|102242.6754|Kerrick|Dallam|TX
+36957.2516|98797.3123|Winchester|Woods|OK
+37006.6944|98565.9129|Stubbs|Barber|KS
+36512.5756|94611.3332|South West City|McDonald|MO
+36114.2463|94259.0963|Wheeler|Washington|AR
+32989.8466|91224.833|Gassoway|East Carroll|LA
+32248.7586|89770.9085|Cross Roads|Rankin|MS
+31347.3907|88031.9464|New Wakefield|Washington|AL
+30997.1265|87288.308|Gandyville|Escambia|FL
+34028.9259|84198.579|Johns Creek|Fulton|GA
+34899.5353|83185.7095|Long Bottom Ford|Oconee|SC
+35163.1518|82996.2503|Canaan|Transylvania|NC
+36303.7166|82455.9778|Green Hill|Washington|TN
+36973.6907|82111.4446|Head of Linefork|Letcher|KY
+37373.33|81271.39|Crystal|Mercer|WV
+38810.6687|77293.5954|Pohick Park|Fairfax|VA
+38950.9441|77058.0329|Forest Hills|District of Columbia|DC
+39604.493|75906.72|Whispering Pines Mobile Home Park|Cecil|MD
+39684.5568|75636.8727|The Woods|New Castle|DE
+40336.497|74473.4855|Rossmoor|Middlesex|NJ
+41271.4859|72845.6553|Branford Hills|New Haven|CT
+41922.3204|71791.1812|Clarkville|Providence|RI
+42256.4833|71631.4558|Ward Corner|Worcester|MA
+43182.3052|71034.229|South Barrington|Strafford|NH
+43337.5818|70942.2845|South Lebanon|York|ME
+43029.5232|72852.5983|West Wardsboro|Windham|VT
+42217.2804|78107.1312|Valley View Estates|Allegany|NY
+42009.2215|79997.5521|Sampson|Erie|PA
+41947.5551|80554.2409|Conneaut|Ashtabula|OH
+41737.5498|84833.2916|Clear Lake|Steuben|IN
+36014.892|115267.956|Exploration Peak Park|Clark|NV
+37009.4454|110202.9073|Goulding|San Juan|UT
+36996.389|109368.9986|Red Mesa|Apache|AZ
+37011.115|107601.9998|La Boca|La Plata|CO
+36592.803|103616.3447|Grenville|Union|NM
+36495.5818|102242.6754|Kerrick|Dallam|TX
+36957.2516|98797.3123|Winchester|Woods|OK
+37006.6944|98565.9129|Stubbs|Barber|KS
+36512.5756|94611.3332|South West City|McDonald|MO
+35032.3119|93223.2345|Ola|Yell|AR
+32989.8466|91224.833|Gassoway|East Carroll|LA
+32248.7586|89770.9085|Cross Roads|Rankin|MS
+31117.3996|87529.4294|Poarch|Escambia|AL
+30997.1265|87288.308|Gandyville|Escambia|FL
+33230.1198|84945.4929|Corinth|Heard|GA
+34899.5353|83185.7095|Long Bottom Ford|Oconee|SC
+35476.2168|82879.8557|Silver Bluff|Haywood|NC
+36210.1063|82497.0892|Mayday|Washington|TN
+36973.6907|82111.4446|Head of Linefork|Letcher|KY
+37357.8956|81141.4827|Johnston Town|Mercer|WV
+38646.5081|77504.4317|Yocum|Prince William|VA
+38844.5571|77016.3651|Giesboro|District of Columbia|DC
+39403.586|75842.579|Cecilton Manor Mobile Home Park|Cecil|MD
+39503.7229|75684.375|Jamisons Corner|New Castle|DE
+40395.6637|74253.2009|Henningers Mill|Monmouth|NJ
+41271.4859|72845.6553|Branford Hills|New Haven|CT
+41922.3204|71791.1812|Clarkville|Providence|RI
+42518.9815|71429.5069|Village of Nagog Woods|Middlesex|MA
+43126.4729|71070.3394|Cedar Waters|Rockingham|NH
+43337.5818|70942.2845|South Lebanon|York|ME
+43029.5232|72852.5983|West Wardsboro|Windham|VT
+42402.5101|77711.7348|Pine Knoll Mobile Home Park|Steuben|NY
+42045.6126|80269.7865|Avonia|Erie|PA
+41716.7165|83665.7702|Elden Heights|Lucas|OH
+41748.3836|85017.4646|Jamestown|Steuben|IN
+42105.8333|86418.3333|Crystal Mobile Home Park|Berrien|MI
+42464.1877|87817.0168|Camp Logan|Lake|IL
+42598.6111|88200.5556|Wheatland Estates|Racine|WI
+43496.6397|91289.5783|New Albin|Allamakee|IA
+44588.0189|93613.8447|Saint Benedict|Scott|MN
+45911.093|96623.576|White Rock Colony|Roberts|SD
+45964.6813|96690.3515|La Mars|Richland|ND
+42929.9678|103938.542|Story|Sioux|NE
+43929.6783|108003.7064|South Flat|Washakie|WY
+45161.0337|112995.5907|Bannack|Beaverhead|MT
+46062.1|116846.2572|Zaza|Nez Perce|ID
+46078.2099|116979.5938|Rogersburg|Asotin|WA
+44948.768|116878.493|Pine Creek|Baker|OR
+35968.3011|115895.0174|Calvada Springs|Inyo|CA

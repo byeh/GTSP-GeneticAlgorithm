@@ -12,14 +12,14 @@ import java.util.StringTokenizer;
 public class GeneticAlgorithm {
 
   // A set tours for our initial population and our parameters
-  private int INITIAL_POPULATION_SIZE = 200;
+  private int INITIAL_POPULATION_SIZE = 100;
   private int NUMBER_OF_ISOLATED_POPULATIONS = 10;
   private int TOTAL_GENERATIONS = 50;
   private int REPLICATON_SIZE = (int) (INITIAL_POPULATION_SIZE * 0.4);
   private int REPRODUCTION_RATE = (int) (INITIAL_POPULATION_SIZE * 0.6);
-  private int TERMINATION_CONDITION = 250;
-  private int currentGeneration = 1;
+  private int TERMINATION_CONDITION = 150;
 
+  private int currentGeneration = 1;
   private static final double DEATH_POW = 0.375;
   private static final double REPROD_POW = 0.375;
   private static final double MUTATION_POW = 0.05;
@@ -34,8 +34,9 @@ public class GeneticAlgorithm {
   private int maxStagnancy = 0;
 
   // lets run this cool genetic algorithm
-  public GeneticAlgorithm(HashMap <String, ArrayList<City>> s) throws FileNotFoundException { 
+  public GeneticAlgorithm(HashMap <String, ArrayList<City>> s, boolean i) throws FileNotFoundException { 
     states = s;
+    importData = i;
     isolatedPopulation = new ArrayList<ArrayList<Tour>>();   
     startTime = System.currentTimeMillis();
     run();
@@ -261,7 +262,7 @@ public class GeneticAlgorithm {
           maxStagnancy = stagnancy;
         }
         System.out.println("Tour length stagnated for: " + stagnancy + " generations.");
-        if(counter > TERMINATION_CONDITION && maxStagnancy > 20) {
+        if(counter > TERMINATION_CONDITION && maxStagnancy > 10) {
           break;
         }
       }

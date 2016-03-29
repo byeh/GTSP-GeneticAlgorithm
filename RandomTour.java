@@ -21,7 +21,6 @@ public class RandomTour {
     ArrayList<String> randomStates = new ArrayList<String>(states.keySet());
     Collections.shuffle(randomStates);
     for(String state: randomStates) {
-      System.out.print(state + " ");
       int randomIndex = randomGenerator.nextInt(states.get(state).size());
       City selectedCity = states.get(state).get(randomIndex);
       temp.addCity(selectedCity);

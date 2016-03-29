@@ -24,7 +24,7 @@ public class ImportData {
     while (scanner.hasNextLine()) {
       City city = new City();
       String temp = scanner.nextLine();
-      parseCity(temp, city);
+      parseCity(temp, city, ";");
       addCityState(city);
     }
     scanner.close();
@@ -32,9 +32,42 @@ public class ImportData {
     return states;
   }
 
+  public ArrayList<Tour> importTours() throws FileNotFoundException {
+    ArrayList<Tour> importedTours = new ArrayList<Tour>();
+    try {
+      Scanner scanner = new Scanner(new File("bestTours.txt"));
+      scanner.useDelimiter("|");
+      
+      Tour t = new Tour(TSPConstants.TOUR_SIZE);
+      // read each line in CSV
+      while (scanner.hasNextLine()) {
+        if(t.getTourSize() < TSPConstants.TOUR_SIZE) {
+          //System.out.println(t.getTourSize());
+          City city = new City();
+          String temp = scanner.nextLine();
+          parseCity(temp, city, "|");;
+          t.addCity(city);
+          if(t.getTourSize() == TSPConstants.TOUR_SIZE) {
+            t.computeTourLength();
+            System.out.println("Imported tour with length: " + t.getTourLength());
+            importedTours.add(t);
+            t = new Tour(TSPConstants.TOUR_SIZE);
+          }
+        }
+      }
+      scanner.close();
+      //auditImport();
+      return importedTours;      
+    }
+    catch(Exception e) {
+      System.out.println(e);
+    }
+    return importedTours;
+  }
+
 // subroutine for ImportData() to parse a line
-  private void parseCity(String s, City city) {
-    StringTokenizer st = new StringTokenizer(s, ";");
+  private void parseCity(String s, City city, String token) {
+    StringTokenizer st = new StringTokenizer(s, token);
     city.updateX(Double.parseDouble(st.nextToken()));
     city.updateY(Double.parseDouble(st.nextToken()));
     city.updateCity(st.nextToken());

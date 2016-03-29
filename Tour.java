@@ -152,7 +152,8 @@ public class Tour {
       String stateName = c.getState();
 
       if(i == tour.size()-1) {
-        System.out.println(latitude + "|"  + longitude + "|" + cityName + "|" + countyName +"|" + stateName);
+        System.out.print(latitude + "|"  + longitude + "|" + cityName + "|" + countyName +"|" + stateName);
+        System.out.println("");
         //System.out.println(tour.get(0).getCity() + "," + tour.get(0).getCounty() +"," + tour.get(0).getState());
       }
       else {

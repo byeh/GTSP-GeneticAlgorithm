@@ -30,7 +30,7 @@ class Tsp {
   }
 
   // print some metrics
-  private void showMetrics(long startTime) {
+  public void showMetrics(long startTime) {
     long stopTime = System.currentTimeMillis();
     long millis = stopTime - startTime;
     long second = (millis / 1000) % 60;

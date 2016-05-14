@@ -13,7 +13,7 @@ In their paper, they test instances of the GTSP with up to 1,000 nodes, but with
 
  # Setup
 
- To enable Google Maps API visualization, please add the enviroment variable `GOOGLE_MAPS_API_KEY="PUT_KEY_HERE"` to your `.bashrc` or equivalent.
+ To enable Google Static Maps API visualization, please add the enviroment variable `GOOGLE_MAPS_API_KEY="PUT_KEY_HERE"` to your `.bashrc` or equivalent.
  
  There exists a makefile that will automatically build and run the java application. Simply just type `make run` on the command line. 
  

@@ -59,9 +59,11 @@
 
 \begin{document}
 \begin{center}
+\vspace*{6cm}
 \textbf{\LARGE The Generalized Travelling Salesman Problem}\\
 \Large Finding the shortest possible USA 49 States Tour\\
 
+\large CO353 - Final Project
 \large Brandon Yeh\\
 \end{center}
 
@@ -179,7 +181,7 @@ In the reproduction subroutine, child tours are also generated using the Ordered
 
 Once the merged population begins to interate through generations, there may be a point where the tour set will converge on a single solution, or it takes a painstakingly long time to minimally improve the best solution found so far. To take care of these issues, a \verb|TERMINATION_CONDITION| parameter is added to force the algorithm to terminate after a set number of iterations.\\
 
-However, there may be cases where there does exist better solutions in the solution space and to ensure that the termination isn't done forcefully, an additional feature was added to allow a new generation of tours to be created if a better tour was found in the current generation relative to the previous tour. That is, a better solution was found in the generation directly after the previous one.\\
+However, there may be cases where there does exist better solutions in the solution space and to ensure that the termination isn't done forcefully, an additional constraint on termination was added to allow a new generation of tours that may only occur after a few generation. The algorithm will then terminate when the \verb|TERMINATION_CONDITION| is reach and if the best tour is stagnated for over 10 generations. This allows the algorithm to terminate once there is very mimimal possibility for significant progress.
 
 This also creates a metric which may be interesting to observe and that is defined as \textit{Generation Stagnancy}. That is, how many generations have passed without an improvement to the best solution. The largest number of stagnant generations may be interesting to observe as if a large percentage of the generations have not produced a better solution, it may be better to terminate the merging and take the best one found to date.
 
@@ -225,7 +227,7 @@ Computational tests were done by varying the values of each individual input par
 \begin{enumerate}
   \item Control Computation Instances\\
 
-  Theses computational tests begin strictly with the input parameters and are run until completion. Then appropriate values in the tour are recorded.
+  Theses computational tests begin strictly with the input parameters and are run until completion. Then appropriate values in the tour are recorded.\\
 
   \item Importing Best Control Tours Instances\\
 
@@ -235,6 +237,36 @@ Computational tests were done by varying the values of each individual input par
 
 The main reasons to segment these computational tests is to determine how effective the algorithm will be in finding a better tour, given the best tours already computed. Furthermore, to ensure that results are not polluted, the recording of the tours that allow imports are separated so as to not influence the results of a completely random instance of the algorithm.
 
+\subsection{Summary}
 
+Testing of various isolated population sizes have shown that very large isolated population sizes may not necessarily produce significantly better results. As each generation takes significantly longer, and as the solution coverges, there must exist a lot of wasteful computation.\\
 
+The best solution found without importing any predefined tours had the following parameters:
+\begin{verbatim}
+  private int INITIAL_POPULATION_SIZE = 100;
+  private int NUMBER_OF_ISOLATED_POPULATIONS = 10;
+  private int TOTAL_GENERATIONS = 25;
+  private int REPLICATON_SIZE = 0.4 * INITIAL_POPULATION_SIZE;
+  private int REPRODUCTION_SIZE = 0.6 * INITIAL_POPULATION_SIZE;
+  private int TERMINATION_CONDITION = 150;
+\end{verbatim}
+With a tour length = 109427.\\
+
+The top 5 results contain four tests that have the following above parameters. Furthermore, the generation stagnancy parameter for termination condition seems to be proving useful as several of these tours either run for over 250 generations to terminating at 150. So it is clear that depending on the random generation/modification components of the tour, the solution space may either quickly converge or extrememly slowly converge on the best tour. It seems that the generation stagnancy is effective in drawing out the potential in a population.\\
+
+The best solution while importing the best control tours has the following parameters:
+\begin{verbatim}
+  private int INITIAL_POPULATION_SIZE = 50;
+  private int NUMBER_OF_ISOLATED_POPULATIONS = 5;
+  private int TOTAL_GENERATIONS = 25;
+  private int REPLICATON_SIZE = 0.4 * INITIAL_POPULATION_SIZE;
+  private int REPRODUCTION_SIZE = 0.6 * INITIAL_POPULATION_SIZE;
+  private int TERMINATION_CONDITION = 150;
+\end{verbatim}
+
+The best tour length found so far using this method has length 109380.\\
+
+The computational tests for these types of instances are very interesting as the best imported solutions tend to dominate all other solutions. Furthermore, the max stagnant generations values go up significantly and very early in the algorithm. It seems that using existing tours will significantly skew the solution set, and having 71 stagnant generations in a row in 150 iterations shows that the algorithm is not generating any better solutions at a good probability. Therefore, these tests can validate that the control tours generated are of near optimal length.\\
+
+The full results can be found in the spreadsheet, \textit{results.xlsx}, provided with this report.
 \end{document}

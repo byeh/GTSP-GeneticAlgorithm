@@ -42,7 +42,6 @@ public class ImportData {
       // read each line in CSV
       while (scanner.hasNextLine()) {
         if(t.getTourSize() < TSPConstants.TOUR_SIZE) {
-          //System.out.println(t.getTourSize());
           City city = new City();
           String temp = scanner.nextLine();
           parseCity(temp, city, "|");;
@@ -56,7 +55,6 @@ public class ImportData {
         }
       }
       scanner.close();
-      //auditImport();
       return importedTours;      
     }
     catch(Exception e) {
@@ -75,9 +73,9 @@ public class ImportData {
     city.updateState(st.nextToken());
   }
 
-// Subroutine for Importdata(). 
-// Adds city to a hashmap of states, which contains an 
-// array list of cities in that state
+/*
+  Subroutine for Importdata() Adds city to a hashmap of states, which contains an array list of cities in that state
+*/
   private void addCityState(City city) {
 
     if(!states.containsKey(city.getState())) {

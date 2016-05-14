@@ -25,7 +25,7 @@ public class TSPConstants {
   public static final HashMap <String, String> STATE_NAME;
   static {
     STATE_NAME = new HashMap<String, String>();
-    STATE_NAME.put("AL", "Alabama");
+    STATE_NAME.put("AL","Alabama");
     STATE_NAME.put("AZ","Arizona");
     STATE_NAME.put("AR","Arkansas");
     STATE_NAME.put("CA","California");

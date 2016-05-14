@@ -44,10 +44,6 @@ public class Tour {
   public void replaceTour(ArrayList<City> t) {
     tour.clear();
     
-    if(t.size() != maxSize) {
-      System.out.println("ERROR: replaceTour not replacing tour of same size");
-      System.exit(5);
-    }
     tourSize = t.size();
     for(int i = 0; i < t.size(); i++) {
       tour.add(t.get(i));
@@ -96,10 +92,7 @@ public class Tour {
 
   public void computeTourLength() {
     tourLength = 0;
-    if(maxSize != tourSize) {
-      System.out.println("ERROR: tour size mismatch" + tourSize);
-      System.exit(5);
-    }
+
     for(int i = 0; i < tourSize; i++) {
       if(i == tourSize - 1) {
         double distance = computePair(tour.get(i).getX(), tour.get(0).getX(),tour.get(i).getY(),tour.get(0).getY());
@@ -110,7 +103,6 @@ public class Tour {
         tourLength = tourLength + distance;
       }
     }
-    //System.out.println("Total Distance:" + (int)tourLength);
   }
 
   // takes two vertices in tour and computes distance
@@ -123,7 +115,6 @@ public class Tour {
     double dy = y1-y2;
     double distance = Math.sqrt((dx*dx) + (dy*dy));
     return distance;
-          //System.out.println((i+1) + ": " + "Distance:" + distance + " " + tour.get(i).getCity() + ", " + tour.get(0).getCity())
   }
 
   public void printTour() {
@@ -154,7 +145,6 @@ public class Tour {
       if(i == tour.size()-1) {
         System.out.print(latitude + "|"  + longitude + "|" + cityName + "|" + countyName +"|" + stateName);
         System.out.println("");
-        //System.out.println(tour.get(0).getCity() + "," + tour.get(0).getCounty() +"," + tour.get(0).getState());
       }
       else {
         System.out.println(latitude + "|"  + longitude + "|" + cityName + "|" + countyName +"|" + stateName);

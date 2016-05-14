@@ -81,7 +81,6 @@ public class TwoOptAlgorithm {
           }
 
           newTour.computeTourLength();
-          //System.out.println(newTour.getTourLength());
           bestTour = newTour;
           i = 0;
           k = 0;

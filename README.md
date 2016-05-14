@@ -1,4 +1,4 @@
-# CO353
+# CO353 - A Travelling Salesman Problem
 CO353 TSP Project
 
 # Overview
